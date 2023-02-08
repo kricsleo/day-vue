@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Day, planRef, toggleMark, marks } from '~/composables/days';
 import { format, getMonth, isSameDay, isWithinInterval, max, min } from 'date-fns'
-import { computed, watch } from 'vue';
+import { computed, watch, nextTick } from 'vue';
 import { useElementHover, useMousePressed } from '@vueuse/core';
 
 const props = defineProps<{
@@ -11,6 +11,7 @@ const props = defineProps<{
 const containerRef = ref<HTMLDivElement>()
 const { pressed } = useMousePressed({ target: containerRef })
 const hovered = useElementHover(containerRef)
+const contexted = ref(false)
 const isOddMonth = computed(() => getMonth(props.day.date) % 2 === 0)
 const currentDayPlans = computed(() => {
   const includedPlans = planRef.planner.plans.filter(
@@ -29,12 +30,16 @@ const currentDayPlans = computed(() => {
 })
 
 watch(pressed, () => {
-  if(pressed.value) {
-    const newPlanId = planRef.planner.add(props.day.date, props.day.date, props.day.date)
-    planRef.editingPlanId = newPlanId
-  } else {
-    planRef.editingPlanId = null
-  }
+  // conflicts with "contextmenu", setTimeout to make it triggerred later
+  setTimeout(() => {
+    if(pressed.value && !contexted.value) {
+      const newPlanId = planRef.planner.add(props.day.date, props.day.date, props.day.date)
+      planRef.editingPlanId = newPlanId
+    } else {
+      contexted.value = false
+      planRef.editingPlanId = null
+    }
+  })
 })
 watch(hovered, () => {
   if(!hovered.value || !planRef.editingPlanId) {
@@ -49,14 +54,19 @@ watch(hovered, () => {
     planRef.editingPlanId = newPlanId
   }
 })
+
+function contextmenu() {
+  contexted.value = true
+  toggleMark(props.day.date)
+}
 </script>
 
 <template>
   <div
     ref="containerRef"
     :id="String(day.id)"
-    :class="['flex flex-col h-30 cursor-pointer select-none leading-none', { 'peace': day.peace, }]"
-    @contextmenu.prevent="toggleMark(day.date)">
+    :class="['flex flex-col h-33 cursor-pointer select-none leading-none', { 'peace': day.peace, }]"
+    @contextmenu.prevent="contextmenu">
 
     <div class="y-center">
       <div :class="[

@@ -1,29 +1,28 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   modelValue: number
 }>()
 
 const emits = defineEmits<{
   (e: 'update:modelValue', v: number): void
 }>()
+const hourList = [4, 5, 6, 7, 8]
+const hourIdx = computed(() => hourList.indexOf(props.modelValue) || 0)
 </script>
 
 <template>
-  <div class="grid grid-cols-[36px_36px_36px] text-3xl" title="working hours per day">
+  <div class="y-center font-mono">
     <button 
-      :disabled="modelValue <= 4"
-      @click="emits('update:modelValue', modelValue - 1)" 
-      :class="['i-carbon:caret-left', {'text-gray': modelValue <= 4}]" />
-    <div class="flex flex-wrap overflow-hidden text-red">
-      <span :style="{marginLeft: `-${modelValue - 4}00%`}" class="shrink-0 i-carbon-number-4" />
-      <span class="shrink-0 i-carbon-number-5" />
-      <span class="shrink-0 i-carbon-number-6" />
-      <span class="shrink-0 i-carbon-number-7" />
-      <span class="shrink-0 i-carbon-number-8" />
+      :disabled="hourIdx <= 0"
+      @click="emits('update:modelValue', hourList[hourIdx - 1])" 
+      :class="['i-carbon:caret-left text-xl', {'op-50': hourIdx <= 0}]" />
+    <div class="flex w-1em whitespace-nowrap overflow-hidden">
+      <span v-for="(hour, idx) in hourList" class="w-1em shrink-0 transition-margin" :style="idx === 0 &&hourIdx ? {marginLeft: `-${hourIdx}00%`} : {}">{{ hour }}</span>
     </div>
+    <span class="text-sm mt-0.5">h/d</span>
     <button 
-      :disabled="modelValue >= 8"
-      @click="emits('update:modelValue', modelValue + 1)"
-      :class="['i-carbon:caret-right', {'text-gray': modelValue >= 8}]" />
+      :disabled="hourIdx >= hourList.length - 1"
+      @click="emits('update:modelValue', hourList[hourIdx + 1])"
+      :class="['i-carbon:caret-right text-xl', {'op-50': hourIdx >= hourList.length - 1}]" />
   </div>
 </template>
