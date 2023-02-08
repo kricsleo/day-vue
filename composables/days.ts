@@ -59,17 +59,17 @@ class DayManager {
     const current = options?.current || Date.now()
     const prev = options?.prev || differenceInCalendarDays(
       current,
-      startOfWeek(addWeeks(current, -12), { weekStartsOn: 1 }),
+      startOfWeek(addWeeks(current, -2), { weekStartsOn: 1 }),
     )
     const next = options?.next || differenceInCalendarDays(
-      endOfWeek(addWeeks(current, 24), { weekStartsOn: 1 }),
+      endOfWeek(addWeeks(current, 10), { weekStartsOn: 1 }),
       current,
     )
     this.days = DayManager.getNearbyDays(current, prev, next)
   }
   addPrevDays(prev = 28) {
     const firstDay = this.days[0].date
-    const prevDays = DayManager.getNearbyDays(firstDay, -prev, -1)
+    const prevDays = DayManager.getNearbyDays(firstDay, prev, -1)
     this.days.unshift(...prevDays)
   }
   addNextDays(next = 28) {
