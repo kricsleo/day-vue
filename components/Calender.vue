@@ -25,25 +25,25 @@ onMounted(() => {
 </script>
 
 <template>
-  <div flex="~ col" shrink-0 class="h-70vh max-w-300 mx-auto">
-    <div py-2 grid="~ cols-7" justify-items-center>
+  <div class="h-70vh flex flex-col max-w-300 mx-auto shrink-0">
+    <div class="py-2 grid grid-cols-7 justify-items-center">
       <h5 
         v-for="week in weeks" 
-        :key="week.name" 
-        :op="week.peace ? '60' : ''">
+        :key="week.name"
+        :class="{'op-60': week.peace}">
         {{week.name}}
       </h5>
     </div>
-    <div class="grow-1 overflow-auto border rounded" ref="container">
-      <div h-1px ref="prevLoader" />
-      <div grid="~ cols-7">
+    <div ref="container" class="grow-1 overflow-auto border rounded">
+      <div ref="prevLoader" class="h-1px" />
+      <div class="grid grid-cols-7">
         <CalenderDay
           v-for="day in daysRef.dayManager.days"
           :key="day.id"
           :day="day"
           class="day" />
       </div>
-      <div h-1px ref="nextLoader" />
+      <div ref="nextLoader" class="h-1px" />
     </div>
   </div>
 </template>
@@ -55,7 +55,6 @@ onMounted(() => {
 }
 .day:nth-of-type(7n) {
   border-right: none;
-
   box-shadow: inset 0px -1px 0px #3a3e41;
 }
 </style>
