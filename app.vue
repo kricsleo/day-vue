@@ -1,7 +1,29 @@
+<script setup lang="ts">
+import '@unocss/reset/tailwind.css'
+import 'uno.css'
+</script>
+
 <template>
   <NuxtPage />
 </template>
 
 <style>
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
 
 </style>

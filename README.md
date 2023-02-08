@@ -2,7 +2,7 @@
 
 <h3 align="center">Schedule working days</h3>
 <h3 align="center">
-  <a href="day.kric.cc">Play it online</a>
+  <a href="https://day.kric.cc">Play it online</a>
 </h3>
 
 ## Features
