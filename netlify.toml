@@ -3,7 +3,7 @@
   NODE_VERSION = "16"
 
 [build]
-  command = "npm i && npm run build"
+  command = "npm i && npm run generate"
 
 [[redirects]]
   from = "/*"
