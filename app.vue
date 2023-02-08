@@ -4,18 +4,12 @@ import 'uno.css'
 </script>
 
 <template>
-  <NuxtPage />
+  <div class="font-sans text-gray bg-#181a1b min-h-100vh">
+    <NuxtPage />
+  </div>
 </template>
 
 <style>
-html,
-body,
-#app {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 ::-webkit-scrollbar,
 ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-track {
