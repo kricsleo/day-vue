@@ -59,7 +59,7 @@ class DayManager {
     const current = options?.current || Date.now()
     const prev = options?.prev || differenceInCalendarDays(
       current,
-      startOfWeek(addWeeks(current, -2), { weekStartsOn: 1 }),
+      startOfWeek(current, { weekStartsOn: 1 }),
     )
     const next = options?.next || differenceInCalendarDays(
       endOfWeek(addWeeks(current, 10), { weekStartsOn: 1 }),

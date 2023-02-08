@@ -15,7 +15,7 @@ const hourIdx = computed(() => hourList.indexOf(props.modelValue) || 0)
     <button 
       :disabled="hourIdx <= 0"
       @click="emits('update:modelValue', hourList[hourIdx - 1])" 
-      :class="['i-carbon:caret-left text-xl', {'op-50': hourIdx <= 0}]" />
+      :class="['i-carbon:caret-left text-2xl', {'op-50': hourIdx <= 0}]" />
     <div class="flex w-1em whitespace-nowrap overflow-hidden">
       <span v-for="(hour, idx) in hourList" class="w-1em shrink-0 transition-margin" :style="idx === 0 &&hourIdx ? {marginLeft: `-${hourIdx}00%`} : {}">{{ hour }}</span>
     </div>
@@ -23,6 +23,6 @@ const hourIdx = computed(() => hourList.indexOf(props.modelValue) || 0)
     <button 
       :disabled="hourIdx >= hourList.length - 1"
       @click="emits('update:modelValue', hourList[hourIdx + 1])"
-      :class="['i-carbon:caret-right text-xl', {'op-50': hourIdx >= hourList.length - 1}]" />
+      :class="['i-carbon:caret-right text-2xl', {'op-50': hourIdx >= hourList.length - 1}]" />
   </div>
 </template>

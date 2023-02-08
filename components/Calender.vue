@@ -17,7 +17,7 @@ onMounted(() => {
   observerManager.observe('loader', prevLoader.value!, () => {
     daysRef.dayManager.addPrevDays()
     // scroll down a litte so that prev loader can be triggerred again
-    container.value!.scrollTop = 10
+    container.value!.scrollTop = 0.5
   })
   observerManager.observe('loader', nextLoader.value!, () => daysRef.dayManager.addNextDays())
   return () => observerManager.deleteObserver('loader')
@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-80vh flex flex-col max-w-300 mx-auto shrink-0">
+  <section>
     <div class="py-2 grid grid-cols-7 justify-items-center">
       <h5 
         v-for="week in weeks" 
@@ -34,8 +34,8 @@ onMounted(() => {
         {{week.name}}
       </h5>
     </div>
-    <div ref="container" class="grow-1 overflow-auto border rounded">
-      <div ref="prevLoader" class="h-1px" />
+    <div ref="container" class="h-75vh overflow-auto border rounded">
+      <div ref="prevLoader" class="h-0.1px" />
       <div class="grid grid-cols-7">
         <CalenderDay
           v-for="day in daysRef.dayManager.days"
@@ -43,9 +43,9 @@ onMounted(() => {
           :day="day"
           class="day" />
       </div>
-      <div ref="nextLoader" class="h-1px" />
+      <div ref="nextLoader" class="h-0.1px" />
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>

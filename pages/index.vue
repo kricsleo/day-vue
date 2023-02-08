@@ -4,7 +4,7 @@ import Header from '~/components/Header.vue';
 </script>
 
 <template>
-  <div class="px-5 py-10">
+  <div class="px-5 py-10 max-w-300 mx-auto">
     <Calender />
     <Header />
   </div>
