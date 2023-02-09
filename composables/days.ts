@@ -20,7 +20,7 @@ export interface Plan {
   end: number
   entry: number
   workDays: number
-  workHours: ComputedRef<number>
+  workHours: number
   offDays: number
   lane: number
   note?: string
@@ -84,7 +84,7 @@ class Planner {
   add(start: number, end: number, entry: number = start) {
     const days = eachDayOfInterval({ start, end })
     const workDays = days.filter(day => isWorkDay(day)).length
-    const workHours = computed(() => workDays * hours.value)
+    const workHours = workDays * hours.value
     const offDays =  days.length - workDays
     const id = Date.now()
     const color = this.colors[this.plans.value.length % this.colors.length]
@@ -124,6 +124,9 @@ class Planner {
       plan.lane = avaliableLane === -1 ? dayLaneStack.length : avaliableLane
     })
   }
+  calculateWorkHours() {
+    this.plans.value.forEach(plan => plan.workHours = plan.workDays * hours.value)
+  }
 }
 
 export const current = ref(startOfDay(Date.now()).valueOf())
@@ -136,6 +139,8 @@ export const planner = new Planner(plans)
 export const daysRef = reactive({
   dayManager: new DayManager()
 })
+
+watch(hours, () => planner.calculateWorkHours())
 
 export function toggleMark(day: number) {
   if(marks.value.has(day)) {
