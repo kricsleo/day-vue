@@ -1,5 +1,5 @@
 import { StorageSerializers, useLocalStorage } from '@vueuse/core'
-import { addDays, addWeeks, differenceInCalendarDays, eachDayOfInterval, endOfWeek, isToday, isWeekend, isWithinInterval, max, min, previousSunday, startOfDay, startOfWeek } from 'date-fns'
+import { addDays, addWeeks, differenceInCalendarDays, eachDayOfInterval, endOfWeek, isSameDay, isToday, isWeekend, isWithinInterval, max, min, previousSunday, startOfDay, startOfWeek } from 'date-fns'
 import { ref, reactive, computed, ComputedRef } from 'vue'
 import { isChineseWorkingDay, isChineseHoliday, findChineseDay } from './chinese-holidays'
 
@@ -42,7 +42,7 @@ export const weeks = [
   { name: '周日', peace: true },
 ]
 
-export const current = ref(startOfDay(Date.now()).valueOf())
+export const current = ref(Date.now())
 export const hours = useLocalStorage('hours', 8)
 export const marks = useLocalStorage<Map<number, Mark>>('marks', new Map())
 
@@ -82,7 +82,6 @@ class DayManager {
 class Planner {
   colors = ['#ec4899', '#8b5cf6', '#3b82f6', '#059669', '#d97706', '#0f766e', '#15803d']
   plans: Plan[] = []
-  avalanes = [0, ]
   constructor() {}
   add(start: number, end: number, entry: number = start) {
     const days = eachDayOfInterval({ start, end })
@@ -167,7 +166,7 @@ export function getDay(day: number): Day {
   return {
     id: day,
     date: day,
-    current: current.value === day,
+    current: isSameDay(day, current.value),
     today: isToday(day),
     work: isWorkDay(day),
     peace: isOffDay(day),

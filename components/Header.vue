@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toggleDark } from '~/composables/dark';
-import { focusDay, hours } from '~/composables/days'
+import { focusToday, hours } from '~/composables/days'
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import { focusDay, hours } from '~/composables/days'
     <a
       class="i-carbon-logo-github"
       rel="noreferrer"
-      href="https://github.com/kricsleo/days"
+      href="https://github.com/kricsleo/day"
       target="_blank"
       title="GitHub"
     />

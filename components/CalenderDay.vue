@@ -109,7 +109,7 @@ function contextmenu() {
 
 <style scoped>
 .peace {
-  background-image: radial-gradient(#5a788650 15%, transparent 15%), radial-gradient(#5A788650 15%, transparent 15%);
+  background-image: radial-gradient(#3a3e4180 15%, transparent 15%), radial-gradient(#3a3e4180 15%, transparent 15%);
   background-position: 0px 0px, 8px 8px;
   background-size: 16px 16px;
 }
