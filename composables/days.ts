@@ -42,7 +42,7 @@ export const weeks = [
   { name: '周日', peace: true },
 ]
 
-export const current = ref(Date.now())
+export const current = ref(startOfDay(Date.now()).valueOf())
 export const hours = useLocalStorage('hours', 8)
 export const marks = useLocalStorage<Map<number, Mark>>('marks', new Map())
 
