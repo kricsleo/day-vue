@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Day, planRef, toggleMark, marks } from '~/composables/days';
+import { Day, toggleMark, marks, highlightPlanId, editingPlanId } from '~/composables/days';
 import { format, getMonth, isSameDay, isWithinInterval, max, min } from 'date-fns'
-import { computed, watch, nextTick } from 'vue';
+import { computed, watch } from 'vue';
 import { useElementHover, useMousePressed } from '@vueuse/core';
 
 const props = defineProps<{
@@ -14,7 +14,7 @@ const hovered = useElementHover(containerRef)
 const contexted = ref(false)
 const isOddMonth = computed(() => getMonth(props.day.date) % 2 === 0)
 const currentDayPlans = computed(() => {
-  const includedPlans = planRef.planner.plans.filter(
+  const includedPlans = planner.plans.value.filter(
     plan => isWithinInterval(props.day.date, { start: plan.start, end: plan.end })
   )
   const formattedPlans = includedPlans.map(plan => ({
@@ -33,25 +33,25 @@ watch(pressed, () => {
   // conflicts with "contextmenu", setTimeout to make it triggerred later
   setTimeout(() => {
     if(pressed.value && !contexted.value) {
-      const newPlanId = planRef.planner.add(props.day.date, props.day.date, props.day.date)
-      planRef.editingPlanId = newPlanId
+      const newPlanId = planner.add(props.day.date, props.day.date, props.day.date)
+      editingPlanId.value = newPlanId
     } else {
       contexted.value = false
-      planRef.editingPlanId = null
+      editingPlanId.value = null
     }
   })
 })
 watch(hovered, () => {
-  if(!hovered.value || !planRef.editingPlanId) {
+  if(!hovered.value || !editingPlanId.value) {
     return
   }
-  const editingPlan = planRef.planner.get(planRef.editingPlanId)
+  const editingPlan = planner.get(editingPlanId.value)
   if(editingPlan) {
     const start = min([props.day.date, editingPlan.entry]).valueOf()
     const end = max([props.day.date, editingPlan.entry]).valueOf()
-    planRef.planner.delete(planRef.editingPlanId)
-    const newPlanId = planRef.planner.add(start, end, editingPlan.entry)
-    planRef.editingPlanId = newPlanId
+    planner.delete(editingPlanId.value)
+    const newPlanId = planner.add(start, end, editingPlan.entry)
+    editingPlanId.value = newPlanId
   }
 })
 
@@ -86,13 +86,13 @@ function contextmenu() {
         'mb-1 h-5 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center', {
           'rounded-l': plan.isStart,
           'rounded-r mr-2': plan.isEnd,
-        }, plan.id === planRef.highlightPlanId ? 'op-100 scale-108 origin-left' : 'op-80' ]" 
+        }, plan.id === highlightPlanId ? 'op-100 scale-108 origin-left' : 'op-80' ]" 
         :style="{backgroundColor: plan.color}"
         @mousedown.stop="() => null"
-        @mouseover="planRef.highlightPlanId = plan.id"
-        @mouseleave="planRef.highlightPlanId = null">
+        @mouseover="highlightPlanId = plan.id"
+        @mouseleave="highlightPlanId = null">
         <template v-if="plan.isStart">
-          <button title="delete" class="shrink-0 self-stretch bg-red" @mousedown.stop="planRef.planner.delete(plan.id)">
+          <button title="delete" class="shrink-0 self-stretch bg-red" @mousedown.stop="planner.delete(plan.id)">
             <div class="i-carbon:close" />
           </button>
           <div class="text-sm px-1px font-mono y-center">
