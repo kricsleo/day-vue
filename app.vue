@@ -4,7 +4,7 @@ import 'uno.css'
 </script>
 
 <template>
-  <div class="font-sans text-gray bg-#181a1b min-h-100vh">
+  <div class="min-h-100vh font-sans text-gray dark:bg-#181a1b">
     <NuxtPage />
   </div>
 </template>

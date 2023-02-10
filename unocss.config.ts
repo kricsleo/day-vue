@@ -6,7 +6,6 @@ export default defineConfig({
     presetIcons({ scale: 1.2, warn: true, }),
   ],
   shortcuts: [
-    [/^border(.*)$/, ([, position]) => `border-#3a3e41 border${position}`],
     [/^wh-(.*)$/, ([, size]) => `w-${size} h-${size}`],
     ['center', 'flex justify-center items-center'],
     ['x-center', 'flex justify-center'],

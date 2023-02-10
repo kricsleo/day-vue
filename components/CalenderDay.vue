@@ -65,7 +65,7 @@ function contextmenu() {
   <div
     ref="containerRef"
     :id="String(day.id)"
-    :class="['flex flex-col h-33 cursor-pointer select-none leading-none', { 'peace': day.peace, }]"
+    :class="['day flex flex-col h-33 cursor-pointer select-none leading-none', { 'day--peace': day.peace, }]"
     @contextmenu.prevent="contextmenu">
 
     <div class="y-center">
@@ -108,8 +108,20 @@ function contextmenu() {
 </template>
 
 <style scoped>
-.peace {
-  background-image: radial-gradient(#3a3e41 15%, transparent 15%), radial-gradient(#3a3e41 15%, transparent 15%);
+
+.day {
+  --border-color: #dadce0;
+  box-shadow: inset -1px 0px 0px var(--border-color),
+    inset 0px -1px 0px var(--border-color);
+}
+.dark .day {
+  --border-color: #3a3e41;
+}
+.day:nth-of-type(7n) {
+  box-shadow: inset 0px -1px 0px var(--border-color);
+}
+.day--peace {
+  background-image: radial-gradient(var(--border-color) 15%, transparent 15%), radial-gradient(var(--border-color) 15%, transparent 15%);
   background-position: 0px 0px, 8px 8px;
   background-size: 16px 16px;
 }

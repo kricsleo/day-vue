@@ -34,7 +34,7 @@ onMounted(() => {
         {{week.name}}
       </h5>
     </div>
-    <div ref="container" class="h-75vh overflow-auto border rounded">
+    <div ref="container" class="h-75vh overflow-auto border border-#dadce0 dark:border-#3a3e41 rounded">
       <div ref="prevLoader" class="h-0.1px" />
       <div class="grid grid-cols-7">
         <CalenderDay
@@ -49,12 +49,4 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.day {
-  box-shadow: inset -1px 0px 0px #3a3e41,
-    inset 0px -1px 0px #3a3e41;
-}
-.day:nth-of-type(7n) {
-  border-right: none;
-  box-shadow: inset 0px -1px 0px #3a3e41;
-}
 </style>
