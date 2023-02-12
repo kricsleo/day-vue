@@ -3,6 +3,7 @@ import { Day, toggleMark, marks, highlightPlanId, editingPlanId } from '~/compos
 import { format, getMonth, isSameDay, isWithinInterval, max, min } from 'date-fns'
 import { computed, watch } from 'vue';
 import { useElementHover, useMousePressed } from '@vueuse/core';
+import Adjust from './Adjust.vue'
 
 const props = defineProps<{
   day: Day
@@ -100,6 +101,7 @@ function contextmenu() {
             {{ plan.workDays }}d({{ plan.workHours }}h)
           </div>
         </template>
+        <Adjust v-if="plan.isEnd" :plan="plan" />
       </div>
       <div v-else class="mb-1 h-5 pointer-events-none" />
     </template>
