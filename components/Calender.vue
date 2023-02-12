@@ -43,7 +43,7 @@ onMounted(() => {
           :day="day"
           class="day" />
       </div>
-      <div ref="nextLoader" class="h-0.1px" />
+      <div ref="nextLoader" class="h-1px" />
     </div>
   </section>
 </template>
