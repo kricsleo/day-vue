@@ -70,7 +70,7 @@ class DayManager {
   }
   addNextDays(next = 28) {
     const lastDay = this.days[this.days.length - 1].date
-    const nextDays = DayManager.getNearbyDays(lastDay, 1, next)
+    const nextDays = DayManager.getNearbyDays(lastDay, -1, next)
     this.days.push(...nextDays)
   }
 }

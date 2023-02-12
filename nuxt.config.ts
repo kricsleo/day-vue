@@ -3,10 +3,15 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'day',
-      "meta": [
+      htmlAttrs: { lang: 'zh-CN'},
+      meta: [
         {
           name: "viewport",
           content: "width=device-width, initial-scale=1"
+        },
+        {
+          name: 'description',
+          content: 'Schedule working days online'
         },
         { charset: "utf-8" }
       ],
