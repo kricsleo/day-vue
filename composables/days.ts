@@ -95,6 +95,7 @@ class Planner {
     const basePlan = this.getBasePlan(plan.start, plan.end)
     // @ts-ignore
     Object.keys(basePlan).forEach(k => oldPlan[k] = basePlan[k])
+    this.schedule()
   }
   getBasePlan(start: number, end: number) {
     const days = eachDayOfInterval({ start, end })
@@ -104,8 +105,9 @@ class Planner {
     return { start, end, workDays, workHours, offDays }
   }
   getColor() {
-    // '#' + Math.floor(Math.random()*16777215).toString(16)
-    return this.colors[this.plans.value.length % this.colors.length]
+    return this.plans.value.length <= this.colors.length
+     ? this.colors[this.plans.value.length - 1]
+     : '#' + Math.floor(Math.random()*16777215).toString(16)
   }
   delete(planId: number) {
     this.plans.value = this.plans.value.filter(plan => plan.id !== planId)
@@ -137,6 +139,7 @@ export const hours = useLocalStorage('hours', 8)
 export const marks = useLocalStorage<Map<number, Mark>>('marks', new Map())
 export const editingPlanId = ref(null as number | null)
 export const highlightPlanId = ref(null as number | null)
+export const activePlanId = computed(() => editingPlanId.value || highlightPlanId.value)
 export const plans = useLocalStorage('plans/v2', [])
 export const planner = new Planner(plans)
 export const daysRef = reactive({

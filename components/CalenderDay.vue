@@ -83,16 +83,16 @@ function contextmenu() {
     <div class="mt-auto" />
     <template v-for="plan in currentDayPlans" :key="plan.id">
       <div v-if="plan.id" :class="[
-        'mb-1 h-5 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center', {
+        'mb-1 h-6 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center', {
           'rounded-l text-sm': plan.isStart,
           'rounded-r mr-2': plan.isEnd,
-        }, plan.id === highlightPlanId ? 'op-100 scale-108 origin-left' : 'op-80' ]" 
+        }, plan.id === activePlanId ? 'op-100 scale-105 origin-left' : 'op-80' ]" 
         :style="{backgroundColor: plan.color}"
         @mousedown.stop="() => null"
         @mouseover="highlightPlanId = plan.id"
         @mouseleave="highlightPlanId = null">
         <template v-if="plan.isStart">
-          <button title="delete" :class="['shrink-0 self-stretch bg-red transition-all', {'ml--1.2em': plan.id !== highlightPlanId }]" @mousedown.stop="planner.delete(plan.id)">
+          <button title="delete" :class="['shrink-0 self-stretch bg-red transition-all', {'ml--1.2em': plan.id !== activePlanId }]" @mousedown.stop="planner.delete(plan.id)">
             <div class="i-carbon:close" />
           </button>
           <div class="px-1px font-mono y-center">
@@ -102,7 +102,7 @@ function contextmenu() {
         </template>
         <Adjust v-if="plan.isEnd" :plan="plan" />
       </div>
-      <div v-else class="mb-1 h-5 pointer-events-none" />
+      <div v-else class="mb-1 h-6 pointer-events-none" />
     </template>
 
   </div>
