@@ -82,27 +82,30 @@ class Planner {
     this.plans = plans
   }
   add(start: number, end: number, entry: number = start) {
+    const id = Date.now()
+    const basePlan = this.getBasePlan(start, end)
+    const color = this.getColor()
+    const plan = { ...basePlan, id, entry, color, lane: 0, }
+    this.plans.value.push(plan)
+    this.schedule()
+    return id
+  }
+  update(planId: number, plan: {start: number; end: number;}) {
+    const oldPlan = this.plans.value.find(p => p.id === planId)
+    const basePlan = this.getBasePlan(plan.start, plan.end)
+    // @ts-ignore
+    Object.keys(basePlan).forEach(k => oldPlan[k] = basePlan[k])
+  }
+  getBasePlan(start: number, end: number) {
     const days = eachDayOfInterval({ start, end })
     const workDays = days.filter(day => isWorkDay(day)).length
     const workHours = workDays * hours.value
     const offDays =  days.length - workDays
-    const id = Date.now()
-    const color = this.colors[this.plans.value.length % this.colors.length]
-    const plan = {
-      id,
-      entry,
-      start,
-      end,
-      workDays,
-      offDays,
-      workHours,
-      lane: 0,
-      color,
-      // color: '#' + Math.floor(Math.random()*16777215).toString(16)
-    }
-    this.plans.value.push(plan)
-    this.schedule()
-    return id
+    return { start, end, workDays, workHours, offDays }
+  }
+  getColor() {
+    // '#' + Math.floor(Math.random()*16777215).toString(16)
+    return this.colors[this.plans.value.length % this.colors.length]
   }
   delete(planId: number) {
     this.plans.value = this.plans.value.filter(plan => plan.id !== planId)

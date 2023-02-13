@@ -21,5 +21,9 @@ const { pressed } = useMousePressed({ target: adjustRef })
 </script>
 
 <template>
-  <button ref="adjustRef" title="adjust" class="i-carbon:fit-to-width ml-auto" @mousedown="editingPlanId = props.plan.id" />
+  <button 
+    ref="adjustRef" 
+    title="adjust" 
+    class="i-carbon:drag-horizontal ml-auto shrink-0" 
+    @mousedown="editingPlanId = props.plan.id" />
 </template>

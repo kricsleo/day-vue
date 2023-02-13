@@ -50,9 +50,7 @@ watch(hovered, () => {
   if(editingPlan) {
     const start = min([props.day.date, editingPlan.entry]).valueOf()
     const end = max([props.day.date, editingPlan.entry]).valueOf()
-    planner.delete(editingPlanId.value)
-    const newPlanId = planner.add(start, end, editingPlan.entry)
-    editingPlanId.value = newPlanId
+    planner.update(editingPlanId.value, { start, end })
   }
 })
 
@@ -66,7 +64,7 @@ function contextmenu() {
   <div
     ref="containerRef"
     :id="String(day.id)"
-    :class="['day flex flex-col h-33 cursor-pointer select-none leading-none', { 'day--peace': day.peace, }]"
+    :class="['day flex flex-col h-36 cursor-pointer select-none leading-none', { 'day--peace': day.peace, }]"
     @contextmenu.prevent="contextmenu"
     @mouseup="() => editingPlanId = null">
 
@@ -76,7 +74,7 @@ function contextmenu() {
         {'border rounded border-yellow': day.current}, 
         day.current ? 'text-yellow-5' : isOddMonth ? 'text-rose' : 'text-emerald-5']">
         <span class="text-5">{{ format(day.date, 'd') }}</span>
-        <span class="text-2"> /{{ format(day.date, 'L月') }}</span>
+        <span class="text-3"> /{{ format(day.date, 'L月') }}</span>
         <span v-if="day.tip" class="text-2">({{ day.tip }})</span>
       </div>
       <div v-if="marks.has(day.date)" class="i-carbon-star-filled text-yellow-5 mr-1" />
@@ -86,7 +84,7 @@ function contextmenu() {
     <template v-for="plan in currentDayPlans" :key="plan.id">
       <div v-if="plan.id" :class="[
         'mb-1 h-5 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center', {
-          'rounded-l': plan.isStart,
+          'rounded-l text-sm': plan.isStart,
           'rounded-r mr-2': plan.isEnd,
         }, plan.id === highlightPlanId ? 'op-100 scale-108 origin-left' : 'op-80' ]" 
         :style="{backgroundColor: plan.color}"
@@ -94,10 +92,10 @@ function contextmenu() {
         @mouseover="highlightPlanId = plan.id"
         @mouseleave="highlightPlanId = null">
         <template v-if="plan.isStart">
-          <button title="delete" class="shrink-0 self-stretch bg-red" @mousedown.stop="planner.delete(plan.id)">
+          <button title="delete" :class="['shrink-0 self-stretch bg-red transition-all', {'ml--1.2em': plan.id !== highlightPlanId }]" @mousedown.stop="planner.delete(plan.id)">
             <div class="i-carbon:close" />
           </button>
-          <div class="text-sm px-1px font-mono y-center">
+          <div class="px-1px font-mono y-center">
             <div class="i-carbon:timer" />
             {{ plan.workDays }}d({{ plan.workHours }}h)
           </div>
