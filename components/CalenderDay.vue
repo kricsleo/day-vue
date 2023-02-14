@@ -83,22 +83,22 @@ function contextmenu() {
     <div class="mt-auto" />
     <template v-for="plan in currentDayPlans" :key="plan.id">
       <div v-if="plan.id" :class="[
-        'mb-1 h-6 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center', {
+        'mb-1 h-6 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center gap-1px font-mono', {
           'rounded-l text-sm': plan.isStart,
           'rounded-r mr-2': plan.isEnd,
-        }, plan.id === activePlanId ? 'op-100 scale-105 origin-left' : 'op-80' ]" 
+        }, plan.id === activePlanId ? 'op-100 scale-103 origin-left' : 'op-80' ]" 
         :style="{backgroundColor: plan.color}"
         @mousedown.stop="() => null"
         @mouseover="highlightPlanId = plan.id"
         @mouseleave="highlightPlanId = null">
         <template v-if="plan.isStart">
-          <button title="delete" :class="['w-6 shrink-0 self-stretch bg-red transition-all center', {'ml--6': plan.id !== activePlanId }]" @mousedown.stop="planner.delete(plan.id)">
+          <button :class="['w-6 h-full shrink-0 bg-red transition-all center', {'ml--6': plan.id !== activePlanId }]" @mousedown.stop="planner.delete(plan.id)">
             <div class="i-carbon:close" />
           </button>
-          <div class="px-1px font-mono y-center">
-            <div class="i-carbon:timer" />
-            {{ plan.workDays }}d({{ plan.workHours }}h)
-          </div>
+          <div i-carbon:timer shrink-0 />
+          {{ plan.workDays }}d({{ plan.workHours }}h)
+          <div i-carbon:add-comment shrink-0 />
+          <input w-5em bg-transparent border-none outline-none />
         </template>
         <Adjust v-if="plan.isEnd" :plan="plan" />
       </div>
