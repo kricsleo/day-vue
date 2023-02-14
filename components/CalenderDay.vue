@@ -92,7 +92,7 @@ function contextmenu() {
         @mouseover="highlightPlanId = plan.id"
         @mouseleave="highlightPlanId = null">
         <template v-if="plan.isStart">
-          <button title="delete" :class="['shrink-0 self-stretch bg-red transition-all', {'ml--1.2em': plan.id !== activePlanId }]" @mousedown.stop="planner.delete(plan.id)">
+          <button title="delete" :class="['w-6 shrink-0 self-stretch bg-red transition-all center', {'ml--6': plan.id !== activePlanId }]" @mousedown.stop="planner.delete(plan.id)">
             <div class="i-carbon:close" />
           </button>
           <div class="px-1px font-mono y-center">

@@ -106,14 +106,14 @@ class Planner {
   }
   getColor() {
     return this.plans.value.length <= this.colors.length
-     ? this.colors[this.plans.value.length - 1]
+     ? this.colors[this.plans.value.length % this.colors.length]
      : '#' + Math.floor(Math.random()*16777215).toString(16)
   }
   delete(planId: number) {
     this.plans.value = this.plans.value.filter(plan => plan.id !== planId)
     this.schedule()
   }
-  get(planId: number) {
+  get(planId: number | null) {
     return this.plans.value.find(plan => plan.id === planId)
   }
   schedule() {
@@ -147,6 +147,12 @@ export const daysRef = reactive({
 })
 
 watch(hours, () => planner.calculateWorkHours())
+watch(editingPlanId, (newEditingPlanId, oldEditingPlanId) => {
+  if(!newEditingPlanId) {
+    const oldEditingPlan = planner.get(oldEditingPlanId)
+    oldEditingPlan && (oldEditingPlan.entry = oldEditingPlan.start)
+  }
+})
 
 export function toggleMark(day: number) {
   if(marks.value.has(day)) {
