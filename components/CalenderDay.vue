@@ -64,7 +64,7 @@ function contextmenu() {
   <div
     ref="containerRef"
     :id="String(day.id)"
-    :class="['day flex flex-col h-36 cursor-pointer select-none leading-none', { 'day--peace': day.peace, }]"
+    :class="['day flex flex-col h-37 cursor-pointer select-none leading-none', { 'day--peace': day.peace, }]"
     @contextmenu.prevent="contextmenu"
     @mouseup="() => editingPlanId = null">
 
