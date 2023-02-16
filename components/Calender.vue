@@ -34,7 +34,7 @@ onMounted(() => {
         {{week.name}}
       </h5>
     </div>
-    <div ref="container" class="h-75vh overflow-auto border border-#dadce0 dark:border-#3a3e41 rounded">
+    <div ref="container" class="h-85vh overflow-auto border border-#dadce0 dark:border-#3a3e41 rounded">
       <div ref="prevLoader" class="h-0.1px" />
       <div class="grid grid-cols-7">
         <CalenderDay
