@@ -52,11 +52,13 @@ function handleContextmenu() {
     <div class="y-center">
       <div :class="[
         'mr-auto grow-0 whitespace-nowrap p-2px m-1',
-        {'border rounded border-yellow': day.current}, 
-        day.current ? 'text-yellow-5' : isOddMonth ? '' : 'text-emerald-5']">
+        {
+          'border rounded border-yellow': day.current,
+        }, 
+        day.current ? 'text-yellow-5' : isOddMonth ? '' : 'text-pink-8']">
         <span class="text-7">{{ format(day.date, 'd') }}</span>
         <span class="text-4"> /{{ format(day.date, 'L月') }}</span>
-        <span v-if="day.tip" class="text-2">({{ day.tip }})</span>
+        <span v-if="day.tip" class="text-4">({{ day.tip }})</span>
       </div>
       <div v-if="marks.has(day.date)" class="i-carbon-star-filled text-yellow-5 mr-1" />
     </div>

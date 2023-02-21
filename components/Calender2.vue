@@ -25,7 +25,7 @@ const dayRows = computed(() => {
         backgroundColor: plan.color, 
           left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
           right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
-          bottom: `${plan.lane * 25}px`
+          bottom: `${plan.lane * 22}px`
       }
       return { plan, rowPlanStartIdx, rowPlanEndIdx, rowHasPlanStart, rowHasPlanEnd, style }
     })
@@ -56,9 +56,9 @@ function handleMouseleaveLane(plan: Plan) {
 </script>
 
 <template>
-  <section>
+  <section flex="~ col" h-100vh pb-5>
     <WeekHeader />
-    <div ref="container" class="h-90vh overflow-auto border border-#dadce0 dark:border-#3a3e41 rounded">
+    <div ref="container" overflow-auto border rounded class="border-#dadce0 dark:border-#3a3e41">
       <div ref="prevLoader" class="h-0.1px" />
       <div v-for="row in dayRows" :key="row.days[0].id" class="grid grid-cols-7 relative">
         <CalenderDay2
@@ -73,7 +73,7 @@ function handleMouseleaveLane(plan: Plan) {
           'absolute text-sm origin-left', {
             'rounded-l': rowPlan.rowHasPlanStart,
             'rounded-r mr-2': rowPlan.rowHasPlanEnd,
-          }, rowPlan.plan.id === activePlanId ? 'op-100 scale-103' : 'op-45' ]" 
+          }, rowPlan.plan.id === activePlanId ? 'op-100 scale-103' : 'op-50' ]" 
           :style="rowPlan.style"
           @mouseover="handleMouseoverLane(rowPlan.plan)"
           @mouseleave="handleMouseleaveLane(rowPlan.plan)">
