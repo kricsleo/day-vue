@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { observerManager } from '@kricsleo/observer'
-import { weeks, focusToday, daysRef } from '~/composables/days';
-import CalenderDay from './CalenderDay.vue'
+import { weeks, focusToday, daysRef, Plan } from '~/composables/days';
 import CalenderDay2 from './CalenderDay2.vue'
 import { chunk } from 'lodash-es'
 import { areIntervalsOverlapping } from 'date-fns'
@@ -26,7 +25,7 @@ const dayRows = computed(() => {
         backgroundColor: plan.color, 
           left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
           right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
-          bottom: `${plan.lane * 10}%`
+          bottom: `${plan.lane * 25}px`
       }
       return { plan, rowPlanStartIdx, rowPlanEndIdx, rowHasPlanStart, rowHasPlanEnd, style }
     })
@@ -47,12 +46,19 @@ onMounted(() => {
   observerManager.observe('loader', nextLoader.value!, () => daysRef.dayManager.addNextDays())
   return () => observerManager.deleteObserver('loader')
 })
+
+function handleMouseoverLane(plan: Plan) {
+  highlightPlanId.value = plan.id
+}
+function handleMouseleaveLane(plan: Plan) {
+  highlightPlanId.value = null
+}
 </script>
 
 <template>
   <section>
     <WeekHeader />
-    <div ref="container" class="h-85vh overflow-auto border border-#dadce0 dark:border-#3a3e41 rounded">
+    <div ref="container" class="h-90vh overflow-auto border border-#dadce0 dark:border-#3a3e41 rounded">
       <div ref="prevLoader" class="h-0.1px" />
       <div v-for="row in dayRows" :key="row.days[0].id" class="grid grid-cols-7 relative">
         <CalenderDay2
@@ -60,14 +66,17 @@ onMounted(() => {
           :key="day.id"
           :day="day"
           class="day" />
-        <div v-for="rowPlan in row.plans" :key="rowPlan.plan.id" :class="[
+        <div 
+          v-for="rowPlan in row.plans" 
+          :key="rowPlan.plan.id" :class="[
           'mb-1 h-4 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center gap-1px font-mono', 
-          'absolute', {
+          'absolute text-sm origin-left', {
             'rounded-l': rowPlan.rowHasPlanStart,
             'rounded-r mr-2': rowPlan.rowHasPlanEnd,
-          }, rowPlan.plan.id === activePlanId ? 'op-100 scale-103 origin-left' : 'op-80' ]" 
+          }, rowPlan.plan.id === activePlanId ? 'op-100 scale-103' : 'op-45' ]" 
           :style="rowPlan.style"
-          @mousedown.stop="() => null">
+          @mouseover="handleMouseoverLane(rowPlan.plan)"
+          @mouseleave="handleMouseleaveLane(rowPlan.plan)">
           <template v-if="rowPlan.rowHasPlanStart">
             <button 
               :class="['w-8 h-full shrink-0 bg-red transition-all center', {'ml--8': rowPlan.plan.id !== activePlanId }]"

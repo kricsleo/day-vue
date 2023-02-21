@@ -5,7 +5,7 @@ import { focusToday, hours } from '~/composables/days'
 
 <template>
   <!-- <h1 text-center>Keep in mind: 996.icu</h1> -->
-  <div class="y-center justify-end gap-3 py-8 text-xl">
+  <div flex="~ col" items-center gap-6 py-8 text-xl>
     <button @click="focusToday" class="i-carbon:location-heart-filled" />
     <InputHours v-model="hours" />
     <button @click="toggleDark()" class="dark:i-carbon-moon i-carbon-sun" />

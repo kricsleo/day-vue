@@ -11,18 +11,19 @@ const hourIdx = computed(() => hourList.indexOf(props.modelValue) || 0)
 </script>
 
 <template>
-  <div class="y-center font-mono">
-    <button 
+  <div font-mono flex="~ col" items-center>
+    <button
+      i-carbon:caret-up text-2xl
       :disabled="hourIdx <= 0"
       @click="emits('update:modelValue', hourList[hourIdx - 1])" 
-      :class="['i-carbon:caret-left text-2xl', {'op-50': hourIdx <= 0}]" />
-    <div class="flex w-1em whitespace-nowrap overflow-hidden">
-      <span v-for="(hour, idx) in hourList" class="w-1em shrink-0 transition-margin" :style="idx === 0 &&hourIdx ? {marginLeft: `-${hourIdx}00%`} : {}">{{ hour }}</span>
+      :class="{'op-50': hourIdx <= 0}" />
+    <div flex="~ col" wh-1em whitespace-nowrap overflow-hidden>
+      <span v-for="(hour, idx) in hourList" center shrink-0 transition-margin leading-none :style="idx === 0 &&hourIdx ? {marginTop: `-${hourIdx}00%`} : {}">{{ hour }}</span>
     </div>
     <span class="text-sm mt-0.5">h/d</span>
     <button 
       :disabled="hourIdx >= hourList.length - 1"
       @click="emits('update:modelValue', hourList[hourIdx + 1])"
-      :class="['i-carbon:caret-right text-2xl', {'op-50': hourIdx >= hourList.length - 1}]" />
+      :class="['i-carbon:caret-down text-2xl', {'op-50': hourIdx >= hourList.length - 1}]" />
   </div>
 </template>

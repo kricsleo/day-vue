@@ -1,16 +1,65 @@
 <script setup lang="ts">
-import { format } from 'date-fns';
-import { Day, toggleMark, marks, highlightPlanId, editingPlanId } from '~/composables/days';
+import { useElementHover, useMousePressed } from '@vueuse/core';
+import { format, max, min, getMonth } from 'date-fns';
+import { Day, toggleMark, marks, editingPlanId } from '~/composables/days';
 
 const props = defineProps<{
   day: Day
 }>()
+const containerRef = ref<HTMLDivElement>()
+const { pressed } = useMousePressed({ target: containerRef })
+const hovered = useElementHover(containerRef)
+const contexted = ref(false)
+const isOddMonth = computed(() => getMonth(props.day.date) % 2 === 0)
+
+watch(pressed, () => {
+  // conflicts with "contextmenu", setTimeout to make it triggerred later
+  setTimeout(() => {
+    if(pressed.value && !contexted.value) {
+      const newPlanId = planner.add(props.day.date, props.day.date, props.day.date)
+      editingPlanId.value = newPlanId
+    } else {
+      contexted.value = false
+      editingPlanId.value = null
+    }
+  })
+})
+watch(hovered, () => {
+  if(!hovered.value || !editingPlanId.value) {
+    return
+  }
+  const editingPlan = planner.get(editingPlanId.value)
+  if(editingPlan) {
+    const start = min([props.day.date, editingPlan.entry]).valueOf()
+    const end = max([props.day.date, editingPlan.entry]).valueOf()
+    planner.update(editingPlanId.value, { start, end })
+  }
+})
+
+function handleContextmenu() {
+  contexted.value = true
+  toggleMark(props.day.date)
+}
 </script>
 
 <template>
-  <div h-37 cursor-pointer select-none leading-none class="day">
-    <span class="text-5">{{ format(day.date, 'd') }}</span>
-    <span class="text-3"> /{{ format(day.date, 'L月') }}</span>
+  <div
+    :id="String(day.id)"
+    ref="containerRef"
+    h-37 cursor-pointer select-none leading-none 
+    class="day"
+    @contextmenu.prevent="handleContextmenu">
+    <div class="y-center">
+      <div :class="[
+        'mr-auto grow-0 whitespace-nowrap p-2px m-1',
+        {'border rounded border-yellow': day.current}, 
+        day.current ? 'text-yellow-5' : isOddMonth ? 'text-rose' : 'text-emerald-5']">
+        <span class="text-5">{{ format(day.date, 'd') }}</span>
+        <span class="text-3"> /{{ format(day.date, 'L月') }}</span>
+        <span v-if="day.tip" class="text-2">({{ day.tip }})</span>
+      </div>
+      <div v-if="marks.has(day.date)" class="i-carbon-star-filled text-yellow-5 mr-1" />
+    </div>
   </div>
 </template>
 
