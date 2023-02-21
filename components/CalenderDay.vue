@@ -83,7 +83,7 @@ function contextmenu() {
     <div class="mt-auto" />
     <template v-for="plan in currentDayPlans" :key="plan.id">
       <div v-if="plan.id" :class="[
-        'mb-1 h-6 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center gap-1px font-mono', {
+        'mb-1 h-4 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center gap-1px font-mono', {
           'rounded-l': plan.isStart,
           'rounded-r mr-2': plan.isEnd,
         }, plan.id === activePlanId ? 'op-100 scale-103 origin-left' : 'op-80' ]" 
@@ -102,7 +102,7 @@ function contextmenu() {
         </template>
         <Adjust v-if="plan.isEnd" :plan="plan" />
       </div>
-      <div v-else class="mb-1 h-6 pointer-events-none" />
+      <div v-else class="mb-1 h-4 pointer-events-none" />
     </template>
 
   </div>
@@ -125,5 +125,6 @@ function contextmenu() {
   background-image: radial-gradient(var(--border-color) 15%, transparent 15%), radial-gradient(var(--border-color) 15%, transparent 15%);
   background-position: 0px 0px, 8px 8px;
   background-size: 16px 16px;
+  /* background-color: #3a3e4165; */
 }
 </style>
