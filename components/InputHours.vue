@@ -11,7 +11,7 @@ const hourIdx = computed(() => hourList.indexOf(props.modelValue) || 0)
 </script>
 
 <template>
-  <div font-mono flex="~ col" items-center>
+  <div flex="~ col" items-center>
     <button
       i-carbon:caret-up text-2xl
       :disabled="hourIdx <= 0"

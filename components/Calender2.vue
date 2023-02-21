@@ -69,7 +69,7 @@ function handleMouseleaveLane(plan: Plan) {
         <div 
           v-for="rowPlan in row.plans" 
           :key="rowPlan.plan.id" :class="[
-          'mb-1 h-4 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center gap-1px font-mono', 
+          'mb-1 h-4 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center gap-1px', 
           'absolute text-sm origin-left', {
             'rounded-l': rowPlan.rowHasPlanStart,
             'rounded-r mr-2': rowPlan.rowHasPlanEnd,

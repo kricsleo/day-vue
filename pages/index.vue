@@ -7,7 +7,7 @@ import Header from '~/components/Header.vue';
 <template>
   <div center gap-5 px-5 max-w-1200 mx-auto>
     <!-- <Calender /> -->
-    <Calender2 />
+    <Calender2 class="grow-1" />
     <Header />
   </div>
 </template>
