@@ -153,11 +153,7 @@ export const daysRef = reactive({
 })
 
 watch(hours, () => planner.calculateWorkHours())
-watch(editingPlanId, (newEditingPlanId, oldEditingPlanId) => {
-  if(!newEditingPlanId) {
-    const oldEditingPlan = planner.get(oldEditingPlanId)
-    oldEditingPlan && (oldEditingPlan.entry = oldEditingPlan.start)
-  }
+watch(editingPlanId, () => {
   editingPlanId.value 
     ? document.body.style.cursor = 'col-resize'
     : document.body.style.cursor = ''

@@ -14,6 +14,8 @@ const contexted = ref(false)
 const isOddMonth = computed(() => getMonth(props.day.date) % 2 === 0)
 
 watch(pressed, () => {
+  console.log('day pressed', pressed.value);
+  
   // conflicts with "contextmenu", setTimeout to make it triggerred later
   setTimeout(() => {
     if(pressed.value && !contexted.value) {
@@ -49,7 +51,7 @@ function handleContextmenu() {
     :id="String(day.id)"
     ref="containerRef"
     h-37 select-none leading-none 
-    class="day"
+    :class="['day', { 'day--peace': day.peace}]"
     @contextmenu="handleContextmenu">
     <div class="y-center">
       <div :class="[
@@ -70,19 +72,21 @@ function handleContextmenu() {
 <style scoped>
 .day {
   --border-color: #dadce0;
+  --bg-color: #dadce065;
   box-shadow: inset -1px 0px 0px var(--border-color),
     inset 0px -1px 0px var(--border-color);
 }
 .dark .day {
   --border-color: #3a3e41;
+  --bg-color: #3a3e4165;
 }
 .day:nth-of-type(7n) {
   box-shadow: inset 0px -1px 0px var(--border-color);
 }
 .day--peace {
-  background-image: radial-gradient(var(--border-color) 15%, transparent 15%), radial-gradient(var(--border-color) 15%, transparent 15%);
+  /* background-image: radial-gradient(var(--border-color) 15%, transparent 15%), radial-gradient(var(--border-color) 15%, transparent 15%);
   background-position: 0px 0px, 8px 8px;
-  background-size: 16px 16px;
-  /* background-color: #3a3e4165; */
+  background-size: 16px 16px; */
+  background-color: var(--bg-color);
 }
 </style>

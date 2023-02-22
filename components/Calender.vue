@@ -37,9 +37,8 @@ const dayRows = computed(() => {
   return dayRows
 })
 
-onMounted(() => focusToday())
-
 onMounted(() => {
+  focusToday()
   observerManager.registerObserver('loader', { root: container.value, });
   observerManager.observe('loader', prevLoader.value!, () => {
     daysRef.dayManager.addPrevDays()
@@ -71,17 +70,18 @@ function handleMouseleaveLane(plan: Plan) {
           class="day" />
         <div 
           v-for="rowPlan in row.plans" 
-          :key="rowPlan.plan.id" :class="[
+          :key="rowPlan.plan.id" 
+          :class="[
           'mb-1 h-5 shrink-0 whitespace-nowrap overflow-hidden text-light y-center', 
           'absolute text-sm transition', {
             'rounded-l': rowPlan.rowHasPlanStart,
             'rounded-r mr-2': rowPlan.rowHasPlanEnd,
             'pointer-events-none': !!editingPlanId
-          }, rowPlan.plan.id === activePlanId ? 'op-100 bg-yellow-6' : 'op-85 bg-blue-5' ]" 
+          }, rowPlan.plan.id === activePlanId ? 'op-100 bg-amber-5' : 'op-85 bg-blue-5' ]" 
           :style="rowPlan.style"
           @mouseover="handleMouseoverLane(rowPlan.plan)"
           @mouseleave="handleMouseleaveLane(rowPlan.plan)">
-          <Adjust v-if="rowPlan.rowHasPlanStart" :plan="rowPlan.plan" bg-green shrink-0 />
+          <Adjust v-show="rowPlan.rowHasPlanStart" isStart :plan="rowPlan.plan" bg-sky shrink-0 />
           <template v-if="rowPlan.rowHasPlanStart">
             <button h-full px-1 @click="planner.delete(rowPlan.plan.id)">
               <div class="i-carbon:close" />
@@ -89,9 +89,8 @@ function handleMouseleaveLane(plan: Plan) {
             <span>{{ rowPlan.plan.workDays }}d({{ rowPlan.plan.workHours }}h)</span>
             <input bg-transparent border-none outline-none w-10 max-w-80 flex-1 />
           </template>
-          <Adjust v-if="rowPlan.rowHasPlanEnd" :plan="rowPlan.plan" shrink-0 ml-auto />
+          <Adjust v-show="rowPlan.rowHasPlanEnd" :isStart="false" :plan="rowPlan.plan" shrink-0 ml-auto />
         </div>
-
       </div>
       <div ref="nextLoader" class="h-1px" />
     </div>
