@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import Calender from '~/components/Calender.vue';
+import OptPanel from '~/components/OptPanel.vue';
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
 </script>
 
 <template>
-  <div class="min-h-100vh font-mono text-gray dark:bg-#181a1b">
-    <NuxtPage />
+  <div 
+    h-screen font-mono text-gray dark:bg-gray
+    center gap-2 px-5 pb-5>
+    <Calender h-full grow-1 max-w-400 />
+    <OptPanel />
   </div>
 </template>
 
@@ -19,5 +24,4 @@ import 'uno.css'
 ::-webkit-scrollbar-corner {
   background-color: transparent;
 }
-
 </style>

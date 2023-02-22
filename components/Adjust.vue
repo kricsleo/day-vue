@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useMousePressed } from '@vueuse/core';
-import { Plan, editingPlanId } from '~~/composables/days';
+import { ref, watch } from 'vue';
+import { Plan, editingPlanId } from '~/composables/days';
 
 const props = defineProps<{plan: Plan}>()
 const wrapperRef = ref<HTMLButtonElement>()
@@ -16,9 +17,7 @@ watch(pressed, () => {
 
 <template>
   <button 
-    ref="wrapperRef" 
-    w-2 bg-red center
-    pointer-events-auto cursor-col-resize>
-    <!-- <div title="adjust" i-carbon:drag-horizontal /> -->
-  </button>
+    ref="wrapperRef"
+    h-full w-1 expand-click
+    pointer-events-auto cursor-col-resize />
 </template>

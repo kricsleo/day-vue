@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { weeks } from '~~/composables/days';
 
 </script>
 
 <template>
-  <section class="py-2 grid grid-cols-7 justify-items-center op-75">
+  <section grid grid-cols-7 justify-items-center py-2 op-80>
     <h5 v-for="week in weeks" :key="week.name">
       {{week.name}}
     </h5>

@@ -1,6 +1,6 @@
 import { StorageSerializers, useLocalStorage, RemovableRef } from '@vueuse/core'
 import { addDays, addWeeks, differenceInCalendarDays, eachDayOfInterval, endOfWeek, isFirstDayOfMonth, isLastDayOfMonth, isSameDay, isToday, isWeekend, isWithinInterval, max, min, previousSunday, startOfDay, startOfWeek } from 'date-fns'
-import { ref, reactive, computed, ComputedRef } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { isChineseWorkingDay, isChineseHoliday, findChineseDay } from './chinese-holidays'
 
 export interface Day {
@@ -110,11 +110,14 @@ class Planner {
     // return this.plans.value.length <= this.colors.length
     //  ? this.colors[this.plans.value.length % this.colors.length]
     //  : '#' + Math.floor(Math.random()*16777215).toString(16)
-    return '#3b82f6'
+    return '#E7F6FD'
   }
   delete(planId: number) {
     this.plans.value = this.plans.value.filter(plan => plan.id !== planId)
     this.schedule()
+  }
+  clean() {
+    this.plans.value = []
   }
   get(planId: number | null) {
     return this.plans.value.find(plan => plan.id === planId)

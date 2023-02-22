@@ -1,34 +1,17 @@
 <script setup lang="ts">
-import { Day, toggleMark, marks, highlightPlanId, editingPlanId } from '~/composables/days';
-import { format, getMonth, isSameDay, isWithinInterval, max, min } from 'date-fns'
-import { computed, watch } from 'vue';
 import { useElementHover, useMousePressed } from '@vueuse/core';
-import Adjust from './Adjust.vue'
+import { format, max, min, getMonth } from 'date-fns';
+import { ref, computed, watch } from 'vue';
+import { Day, toggleMark, marks, editingPlanId, planner } from '~/composables/days';
 
 const props = defineProps<{
   day: Day
 }>()
-
 const containerRef = ref<HTMLDivElement>()
 const { pressed } = useMousePressed({ target: containerRef })
 const hovered = useElementHover(containerRef)
 const contexted = ref(false)
 const isOddMonth = computed(() => getMonth(props.day.date) % 2 === 0)
-const currentDayPlans = computed(() => {
-  const includedPlans = planner.plans.value.filter(
-    plan => isWithinInterval(props.day.date, { start: plan.start, end: plan.end })
-  )
-  const formattedPlans = includedPlans.map(plan => ({
-    ...plan,
-    isStart: isSameDay(props.day.date, plan.start),
-    isEnd: isSameDay(props.day.date, plan.end),
-  }))
-  const maxLane = formattedPlans.reduce((lane, plan) => Math.max(lane, plan.lane), -1)
-  const filledPlans = Array.from(
-    {length: maxLane + 1}, (_, lane) => formattedPlans.find(plan => plan.lane === lane) || {id: null, lane}
-    ).sort((a, b) => b.lane - a.lane)
-  return filledPlans;
-})
 
 watch(pressed, () => {
   // conflicts with "contextmenu", setTimeout to make it triggerred later
@@ -46,6 +29,7 @@ watch(hovered, () => {
   if(!hovered.value || !editingPlanId.value) {
     return
   }
+  console.log('hovering');
   const editingPlan = planner.get(editingPlanId.value)
   if(editingPlan) {
     const start = min([props.day.date, editingPlan.entry]).valueOf()
@@ -54,7 +38,7 @@ watch(hovered, () => {
   }
 })
 
-function contextmenu() {
+function handleContextmenu() {
   contexted.value = true
   toggleMark(props.day.date)
 }
@@ -62,54 +46,28 @@ function contextmenu() {
 
 <template>
   <div
-    ref="containerRef"
     :id="String(day.id)"
-    :class="['day flex flex-col h-37 cursor-pointer select-none leading-none', { 'day--peace': day.peace, }]"
-    @contextmenu.prevent="contextmenu"
-    @mouseup="() => editingPlanId = null">
-
+    ref="containerRef"
+    h-37 cursor-pointer select-none leading-none 
+    class="day"
+    @contextmenu="handleContextmenu">
     <div class="y-center">
       <div :class="[
         'mr-auto grow-0 whitespace-nowrap p-2px m-1',
-        {'border rounded border-yellow': day.current}, 
-        day.current ? 'text-yellow-5' : isOddMonth ? 'text-rose' : 'text-emerald-5']">
+        {
+          'border rounded border-yellow': day.current,
+        }, 
+        day.current ? 'text-yellow-5' : isOddMonth ? '' : 'text-red']">
         <span class="text-5">{{ format(day.date, 'd') }}</span>
         <span class="text-3"> /{{ format(day.date, 'L月') }}</span>
-        <span v-if="day.tip" class="text-2">({{ day.tip }})</span>
+        <span v-if="day.tip" class="text-3">({{ day.tip }})</span>
       </div>
       <div v-if="marks.has(day.date)" class="i-carbon-star-filled text-yellow-5 mr-1" />
     </div>
-
-    <div class="mt-auto" />
-    <template v-for="plan in currentDayPlans" :key="plan.id">
-      <div v-if="plan.id" :class="[
-        'mb-1 h-4 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center gap-1px font-mono', {
-          'rounded-l': plan.isStart,
-          'rounded-r mr-2': plan.isEnd,
-        }, plan.id === activePlanId ? 'op-100 scale-103 origin-left' : 'op-80' ]" 
-        :style="{backgroundColor: plan.color}"
-        @mousedown.stop="() => null"
-        @mouseover="highlightPlanId = plan.id"
-        @mouseleave="highlightPlanId = null">
-        <template v-if="plan.isStart">
-          <button :class="['w-8 h-full shrink-0 bg-red transition-all center', {'ml--8': plan.id !== activePlanId }]" @mousedown.stop="planner.delete(plan.id)">
-            <div class="i-carbon:close" />
-          </button>
-          <div i-carbon:timer shrink-0 />
-          {{ plan.workDays }}d({{ plan.workHours }}h)
-          <div i-carbon:text-annotation-toggle />
-          <input w-5em bg-transparent border-none outline-none grow-1 />
-        </template>
-        <Adjust v-if="plan.isEnd" :plan="plan" />
-      </div>
-      <div v-else class="mb-1 h-4 pointer-events-none" />
-    </template>
-
   </div>
 </template>
 
 <style scoped>
-
 .day {
   --border-color: #dadce0;
   box-shadow: inset -1px 0px 0px var(--border-color),
