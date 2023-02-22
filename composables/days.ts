@@ -110,7 +110,7 @@ class Planner {
     // return this.plans.value.length <= this.colors.length
     //  ? this.colors[this.plans.value.length % this.colors.length]
     //  : '#' + Math.floor(Math.random()*16777215).toString(16)
-    return '#E7F6FD'
+    return '#3b82f6cc'
   }
   delete(planId: number) {
     this.plans.value = this.plans.value.filter(plan => plan.id !== planId)
@@ -158,6 +158,9 @@ watch(editingPlanId, (newEditingPlanId, oldEditingPlanId) => {
     const oldEditingPlan = planner.get(oldEditingPlanId)
     oldEditingPlan && (oldEditingPlan.entry = oldEditingPlan.start)
   }
+  editingPlanId.value 
+    ? document.body.style.cursor = 'col-resize'
+    : document.body.style.cursor = ''
 })
 
 export function toggleMark(day: number) {

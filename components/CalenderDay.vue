@@ -48,7 +48,7 @@ function handleContextmenu() {
   <div
     :id="String(day.id)"
     ref="containerRef"
-    h-37 cursor-pointer select-none leading-none 
+    h-37 select-none leading-none 
     class="day"
     @contextmenu="handleContextmenu">
     <div class="y-center">

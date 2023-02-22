@@ -6,12 +6,12 @@ import 'uno.css'
 </script>
 
 <template>
-  <div 
-    h-screen font-mono text-gray dark:bg-gray
+  <main 
+    h-screen font-mono text-gray dark:bg-dark-8
     center gap-2 px-5 pb-5>
     <Calender h-full grow-1 max-w-400 />
     <OptPanel />
-  </div>
+  </main>
 </template>
 
 <style>
