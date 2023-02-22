@@ -1,5 +1,5 @@
 import { StorageSerializers, useLocalStorage, RemovableRef } from '@vueuse/core'
-import { addDays, addWeeks, differenceInCalendarDays, eachDayOfInterval, endOfWeek, isSameDay, isToday, isWeekend, isWithinInterval, max, min, previousSunday, startOfDay, startOfWeek } from 'date-fns'
+import { addDays, addWeeks, differenceInCalendarDays, eachDayOfInterval, endOfWeek, isFirstDayOfMonth, isLastDayOfMonth, isSameDay, isToday, isWeekend, isWithinInterval, max, min, previousSunday, startOfDay, startOfWeek } from 'date-fns'
 import { ref, reactive, computed, ComputedRef } from 'vue'
 import { isChineseWorkingDay, isChineseHoliday, findChineseDay } from './chinese-holidays'
 
@@ -9,6 +9,8 @@ export interface Day {
   work: boolean
   peace: boolean
   current: boolean
+  isMonthStart: boolean
+  isMonthEnd: boolean
   today: boolean
   selected: boolean
   tip: string
@@ -184,6 +186,8 @@ export function getDay(day: number): Day {
     id: day,
     date: day,
     current: isSameDay(day, current.value),
+    isMonthStart: isFirstDayOfMonth(day),
+    isMonthEnd: isLastDayOfMonth(day),
     today: isToday(day),
     work: isWorkDay(day),
     peace: isOffDay(day),

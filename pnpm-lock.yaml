@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@iconify-json/carbon': ^1.1.14
   '@kricsleo/observer': ^0.1.11
+  '@types/lodash-es': ^4.17.6
   '@unocss/nuxt': ^0.49.4
   '@vueuse/core': ^9.12.0
   date-fns: ^2.29.3
@@ -18,6 +19,7 @@ dependencies:
 
 devDependencies:
   '@iconify-json/carbon': 1.1.14
+  '@types/lodash-es': 4.17.6
   '@unocss/nuxt': 0.49.4
   nuxt: 3.1.2
   unocss: 0.49.4
@@ -1236,6 +1238,16 @@ packages:
 
   /@types/estree/1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
+    dev: true
+
+  /@types/lodash-es/4.17.6:
+    resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
+    dependencies:
+      '@types/lodash': 4.14.191
+    dev: true
+
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
     dev: true
 
   /@types/resolve/1.20.2:

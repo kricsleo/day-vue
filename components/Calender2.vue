@@ -22,10 +22,10 @@ const dayRows = computed(() => {
       const rowHasPlanStart = rowPlanStartIdx !== -1
       const rowHasPlanEnd = rowPlanEndIdx !== -1
       const style = {
-        left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
-        right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
-        bottom: `${plan.lane * 20}px`,
-        backgroundColor: plan.color,
+        backgroundColor: plan.color, 
+          left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
+          right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
+          bottom: `${plan.lane * 25}px`
       }
       const active = plan.id === activePlanId.value
       return { plan, rowPlanStartIdx, rowPlanEndIdx, rowHasPlanStart, rowHasPlanEnd, style, active }
@@ -57,9 +57,9 @@ function handleMouseleaveLane(plan: Plan) {
 </script>
 
 <template>
-  <section>
+  <section flex="~ col" h-100vh pb-5>
     <WeekHeader />
-    <div ref="container" class="h-90vh overflow-auto border border-#dadce0 dark:border-#3a3e41 rounded">
+    <div ref="container" overflow-auto border rounded class="border-#dadce0 dark:border-#3a3e41">
       <div ref="prevLoader" class="h-0.1px" />
       <div v-for="row in dayRows" :key="row.days[0].id" class="grid grid-cols-7 relative">
         <CalenderDay2
@@ -70,12 +70,11 @@ function handleMouseleaveLane(plan: Plan) {
         <div 
           v-for="rowPlan in row.plans" 
           :key="rowPlan.plan.id" :class="[
-          'mb-1 h-4 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 flex items-stretch gap-1px', 
+          'mb-1 h-4 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center gap-1px font-mono', 
           'absolute text-sm origin-left', {
             'rounded-l': rowPlan.rowHasPlanStart,
             'rounded-r mr-2': rowPlan.rowHasPlanEnd,
-            'pointer-events-none': rowPlan.plan.id === editingPlanId
-          }, rowPlan.active ? 'op-100 scale-103' : 'op-55' ]" 
+          }, rowPlan.plan.id === activePlanId ? 'op-100 scale-103' : 'op-45' ]" 
           :style="rowPlan.style"
           @mouseover="handleMouseoverLane(rowPlan.plan)"
           @mouseleave="handleMouseleaveLane(rowPlan.plan)">
