@@ -72,16 +72,16 @@ function handleMouseleaveLane(plan: Plan) {
           v-for="rowPlan in row.plans" 
           :key="rowPlan.plan.id" 
           :class="[
-          'mb-1 h-5 shrink-0 whitespace-nowrap overflow-hidden text-light y-center', 
+          'mb-1 h-5 shrink-0 whitespace-nowrap overflow-hidden text-white y-center', 
           'absolute text-sm transition', {
             'rounded-l': rowPlan.rowHasPlanStart,
             'rounded-r mr-2': rowPlan.rowHasPlanEnd,
             'pointer-events-none': !!editingPlanId
-          }, rowPlan.plan.id === activePlanId ? 'op-100 bg-amber-6' : 'op-85 bg-blue-5' ]" 
+          }, rowPlan.plan.id === activePlanId ? 'op-95 bg-amber-6' : 'op-80 bg-sky-6' ]" 
           :style="rowPlan.style"
           @mouseover="handleMouseoverLane(rowPlan.plan)"
           @mouseleave="handleMouseleaveLane(rowPlan.plan)">
-          <Adjust v-show="rowPlan.rowHasPlanStart" isStart :plan="rowPlan.plan" bg-sky shrink-0 />
+          <Adjust v-show="rowPlan.rowHasPlanStart" isStart :plan="rowPlan.plan" bg-amber shrink-0 />
           <template v-if="rowPlan.rowHasPlanStart">
             <button h-full px-1 transition @click="planner.delete(rowPlan.plan.id)">
               <div class="i-carbon:close" />

@@ -14,8 +14,6 @@ const contexted = ref(false)
 const isOddMonth = computed(() => getMonth(props.day.date) % 2 === 0)
 
 watch(pressed, () => {
-  console.log('day pressed', pressed.value);
-  
   // conflicts with "contextmenu", setTimeout to make it triggerred later
   setTimeout(() => {
     if(pressed.value && !contexted.value) {
@@ -31,7 +29,6 @@ watch(hovered, () => {
   if(!hovered.value || !editingPlanId.value) {
     return
   }
-  console.log('hovering');
   const editingPlan = planner.get(editingPlanId.value)
   if(editingPlan) {
     const start = min([props.day.date, editingPlan.entry]).valueOf()
@@ -52,7 +49,7 @@ function handleContextmenu() {
     ref="containerRef"
     h-37 select-none leading-none 
     :class="['day', { 'day--peace': day.peace}]"
-    @contextmenu="handleContextmenu">
+    @contextmenu.prevent="handleContextmenu">
     <div class="y-center">
       <div :class="[
         'mr-auto grow-0 whitespace-nowrap p-2px m-1',
