@@ -6,7 +6,7 @@ import { focusToday, hours, planner } from '~/composables/days'
 
 <template>
   <!-- <h1 text-center>Keep in mind: 996.icu</h1> -->
-  <div flex="~ col" gap-5 center text-2xl>
+  <div flex="~ col" gap-5 center text-3xl>
     <button @click="focusToday" class="i-carbon:location-heart-filled" />
     <InputHours v-model="hours" />
     <button i-carbon:clean @click="planner.clean" />
