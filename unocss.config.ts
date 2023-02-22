@@ -13,5 +13,7 @@ export default defineConfig({
     ['x-center', 'flex justify-center'],
     ['x-between', 'flex justify-between'],
     ['y-center', 'flex items-center'],
+    ['transition', 'duration-150 transition-all'],
+    [/^expand-click-?(.*)$/, ([,size]) => `cursor-pointer relative before:content-[""] before:absolute before:inset--${size || 10}`],
   ],
 })

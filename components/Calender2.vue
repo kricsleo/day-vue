@@ -22,12 +22,13 @@ const dayRows = computed(() => {
       const rowHasPlanStart = rowPlanStartIdx !== -1
       const rowHasPlanEnd = rowPlanEndIdx !== -1
       const style = {
-        backgroundColor: plan.color, 
-          left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
-          right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
-          bottom: `${plan.lane * 25}px`
+        left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
+        right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
+        bottom: `${plan.lane * 20}px`,
+        backgroundColor: plan.color,
       }
-      return { plan, rowPlanStartIdx, rowPlanEndIdx, rowHasPlanStart, rowHasPlanEnd, style }
+      const active = plan.id === activePlanId.value
+      return { plan, rowPlanStartIdx, rowPlanEndIdx, rowHasPlanStart, rowHasPlanEnd, style, active }
     })
     return { plans: rowPlans, days: row }
   })
@@ -69,26 +70,25 @@ function handleMouseleaveLane(plan: Plan) {
         <div 
           v-for="rowPlan in row.plans" 
           :key="rowPlan.plan.id" :class="[
-          'mb-1 h-4 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 y-center gap-1px font-mono', 
+          'mb-1 h-4 shrink-0 whitespace-nowrap overflow-hidden text-light duration-100 flex items-stretch gap-1px', 
           'absolute text-sm origin-left', {
             'rounded-l': rowPlan.rowHasPlanStart,
             'rounded-r mr-2': rowPlan.rowHasPlanEnd,
-          }, rowPlan.plan.id === activePlanId ? 'op-100 scale-103' : 'op-45' ]" 
+            'pointer-events-none': rowPlan.plan.id === editingPlanId
+          }, rowPlan.active ? 'op-100 scale-103' : 'op-55' ]" 
           :style="rowPlan.style"
           @mouseover="handleMouseoverLane(rowPlan.plan)"
           @mouseleave="handleMouseleaveLane(rowPlan.plan)">
-          <template v-if="rowPlan.rowHasPlanStart">
-            <button 
-              :class="['w-8 h-full shrink-0 bg-red transition-all center', {'ml--8': rowPlan.plan.id !== activePlanId }]"
-              @mousedown.stop="planner.delete(rowPlan.plan.id)">
+          <Adjust v-if="rowPlan.rowHasPlanStart" :plan="rowPlan.plan" transition :class="{'ml--17': !rowPlan.active}" />
+          <div v-if="rowPlan.rowHasPlanStart" center pointer-events-auto font-mono>
+            <button px-2 bg-red @click="planner.delete(rowPlan.plan.id)">
               <div class="i-carbon:close" />
             </button>
-            <div i-carbon:timer shrink-0 />
+            <div i-carbon:timer ml-1 />
             {{ rowPlan.plan.workDays }}d({{ rowPlan.plan.workHours }}h)
-            <div i-carbon:text-annotation-toggle />
             <input w-5em bg-transparent border-none outline-none grow-1 />
-          </template>
-          <Adjust v-if="rowPlan.rowHasPlanEnd" :plan="rowPlan.plan" />
+          </div>
+          <Adjust v-if="rowPlan.rowHasPlanEnd" :plan="rowPlan.plan" :class="rowPlan.active ? 'ml-auto' : 'ml-100%'" />
         </div>
 
       </div>

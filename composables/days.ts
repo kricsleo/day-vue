@@ -108,7 +108,7 @@ class Planner {
     // return this.plans.value.length <= this.colors.length
     //  ? this.colors[this.plans.value.length % this.colors.length]
     //  : '#' + Math.floor(Math.random()*16777215).toString(16)
-    return '#ec4899'
+    return '#3b82f6'
   }
   delete(planId: number) {
     this.plans.value = this.plans.value.filter(plan => plan.id !== planId)

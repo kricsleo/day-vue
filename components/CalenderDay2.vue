@@ -28,6 +28,7 @@ watch(hovered, () => {
   if(!hovered.value || !editingPlanId.value) {
     return
   }
+  console.log('hovering');
   const editingPlan = planner.get(editingPlanId.value)
   if(editingPlan) {
     const start = min([props.day.date, editingPlan.entry]).valueOf()
