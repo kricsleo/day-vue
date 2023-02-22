@@ -77,13 +77,13 @@ function handleMouseleaveLane(plan: Plan) {
             'rounded-l': rowPlan.rowHasPlanStart,
             'rounded-r mr-2': rowPlan.rowHasPlanEnd,
             'pointer-events-none': !!editingPlanId
-          }, rowPlan.plan.id === activePlanId ? 'op-100 bg-amber-5' : 'op-85 bg-blue-5' ]" 
+          }, rowPlan.plan.id === activePlanId ? 'op-100 bg-amber-6' : 'op-85 bg-blue-5' ]" 
           :style="rowPlan.style"
           @mouseover="handleMouseoverLane(rowPlan.plan)"
           @mouseleave="handleMouseleaveLane(rowPlan.plan)">
           <Adjust v-show="rowPlan.rowHasPlanStart" isStart :plan="rowPlan.plan" bg-sky shrink-0 />
           <template v-if="rowPlan.rowHasPlanStart">
-            <button h-full px-1 @click="planner.delete(rowPlan.plan.id)">
+            <button h-full px-1 transition @click="planner.delete(rowPlan.plan.id)">
               <div class="i-carbon:close" />
             </button>
             <span>{{ rowPlan.plan.workDays }}d({{ rowPlan.plan.workHours }}h)</span>
