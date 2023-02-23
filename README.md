@@ -10,3 +10,5 @@
 - [x] Distinguish working days and non-working days(weekends and Chinese official holidays)
 - [x] Calculate working days(hours) within the period you selected
 - [x] Mark days
+- [ ] Timeline Contextmenu
+  - [ ] Custom color
