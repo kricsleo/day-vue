@@ -55,6 +55,9 @@ function handleMouseoverLane(plan: Plan) {
 function handleMouseleaveLane(plan: Plan) {
   highlightPlanId.value = null
 }
+function handleContextmenu() {
+  console.log('handleContextmenu')
+}
 </script>
 
 <template>
@@ -80,7 +83,8 @@ function handleMouseleaveLane(plan: Plan) {
           }, rowPlan.active ? 'op-95 bg-amber-5' : 'op-80 bg-sky-6' ]" 
           :style="rowPlan.style"
           @mouseover="handleMouseoverLane(rowPlan.plan)"
-          @mouseleave="handleMouseleaveLane(rowPlan.plan)">
+          @mouseleave="handleMouseleaveLane(rowPlan.plan)"
+          @contextmenu="handleContextmenu">
           <Adjust v-show="rowPlan.rowHasPlanStart" isStart :plan="rowPlan.plan" bg-amber-3 shrink-0 />
           <template v-if="rowPlan.rowHasPlanStart">
             <button h-full px-1 transition @click="planner.delete(rowPlan.plan.id)">
