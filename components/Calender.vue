@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { observerManager } from '@kricsleo/observer'
-import { weeks, focusToday, daysRef, Plan, activePlanId, highlightPlanId, planner, editingPlanId } from '~/composables/days';
+import { weeks, focusToday, daysRef, activePlanId, planner } from '~/composables/days';
 import { chunk } from 'lodash-es'
 import { areIntervalsOverlapping } from 'date-fns'
 import WeekHeader from './WeekHeader.vue'
 import CalenderDay from './CalenderDay.vue'
-import Adjust from './Adjust.vue'
+import RowPlan from './RowPlan.vue';
  
 const prevLoader = ref<HTMLElement>()
 const nextLoader = ref<HTMLElement>()
@@ -49,15 +49,6 @@ onMounted(() => {
   return () => observerManager.deleteObserver('loader')
 })
 
-function handleMouseoverLane(plan: Plan) {
-  highlightPlanId.value = plan.id
-}
-function handleMouseleaveLane(plan: Plan) {
-  highlightPlanId.value = null
-}
-function handleContextmenu() {
-  console.log('handleContextmenu')
-}
 </script>
 
 <template>
@@ -66,35 +57,8 @@ function handleContextmenu() {
     <div ref="container" grow-1 overflow-auto border rounded class="border-#dadce0 dark:border-#3a3e41">
       <div ref="prevLoader" class="h-0.1px" />
       <div v-for="row in dayRows" :key="row.days[0].id" class="grid grid-cols-7 relative">
-        <CalenderDay
-          v-for="day in row.days"
-          :key="day.id"
-          :day="day"
-          class="day" />
-        <div 
-          v-for="rowPlan in row.plans" 
-          :key="rowPlan.plan.id" 
-          :class="[
-          'mb-1 h-5 shrink-0 whitespace-nowrap overflow-hidden text-white y-center', 
-          'absolute text-sm transition', {
-            'rounded-l': rowPlan.rowHasPlanStart,
-            'rounded-r mr-2': rowPlan.rowHasPlanEnd,
-            'pointer-events-none': !!editingPlanId
-          }, rowPlan.active ? 'op-95 bg-amber-5' : 'op-80 bg-sky-6' ]" 
-          :style="rowPlan.style"
-          @mouseover="handleMouseoverLane(rowPlan.plan)"
-          @mouseleave="handleMouseleaveLane(rowPlan.plan)"
-          @contextmenu="handleContextmenu">
-          <Adjust v-show="rowPlan.rowHasPlanStart" isStart :plan="rowPlan.plan" bg-amber-3 shrink-0 />
-          <template v-if="rowPlan.rowHasPlanStart">
-            <button h-full px-1 transition @click="planner.delete(rowPlan.plan.id)">
-              <div class="i-carbon:close" />
-            </button>
-            <span>{{ rowPlan.plan.workDays }}d({{ rowPlan.plan.workHours }}h)</span>
-            <input bg-transparent border-none outline-none w-10 max-w-80 flex-1 />
-          </template>
-          <Adjust v-show="rowPlan.rowHasPlanEnd" :isStart="false" :plan="rowPlan.plan" shrink-0 ml-auto />
-        </div>
+        <CalenderDay v-for="day in row.days" :key="day.id" :day="day" />
+        <RowPlan v-for="rowPlan in row.plans" :key="rowPlan.plan.id" :rowPlan="rowPlan" />
       </div>
       <div ref="nextLoader" class="h-1px" />
     </div>
