@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { StyleValue } from 'vue';
-import { planner, Plan, editingPlanId, highlightPlanId } from '~~/composables/days';
+import { computed, ref, StyleValue, watch } from 'vue';
+import { planner, Plan, editingPlanId, highlightPlanId, menuPlanId, menuRowPlanId, activePlanId } from '~~/composables/days';
 import Adjust from './Adjust.vue';
+import { onKeyStroke } from '@vueuse/core'
 
 const props = defineProps<{
   rowPlan:{
+    id: string
     plan: Plan
     rowPlanStartIdx: number
     rowPlanEndIdx: number
@@ -14,27 +16,12 @@ const props = defineProps<{
     active: boolean
   }
 }>()
-// const rowPlans = computed(() => {
-//   const inRowPlans = planner.plans.value.filter(plan => areIntervalsOverlapping(
-//     { start: plan.start, end: plan.end },
-//     { start: props.days[0].date, end: props.days[props.days.length - 1].date },
-//   ))
-//   const rowPlans = inRowPlans.map(plan => {
-//     const rowPlanStartIdx = props.days.findIndex(day => day.date === plan.start)
-//     const rowPlanEndIdx = props.days.findIndex(day => day.date === plan.end)
-//     const rowHasPlanStart = rowPlanStartIdx !== -1
-//     const rowHasPlanEnd = rowPlanEndIdx !== -1
-//     const style = {
-//       // backgroundColor: plan.color, 
-//       left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
-//       right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
-//       bottom: `${plan.lane * 24}px`
-//     }
-//     const active = plan.id === activePlanId.value
-//     return { plan, rowPlanStartIdx, rowPlanEndIdx, rowHasPlanStart, rowHasPlanEnd, style, active }
-//   })
-//   return rowPlans
-// })
+const menuStyle = ref({})
+const colors = ['#ff7065', '#ffb353', '#ffde58', '#5b9dff', '#6fdf74', '#cd7df6']
+const menuVisible = computed(() => menuRowPlanId.value === props.rowPlan.id)
+
+watch(activePlanId, hideMenu)
+onKeyStroke('Escape', hideMenu)
 
 function handleMouseoverLane(plan: Plan) {
   highlightPlanId.value = plan.id
@@ -42,32 +29,61 @@ function handleMouseoverLane(plan: Plan) {
 function handleMouseleaveLane(plan: Plan) {
   highlightPlanId.value = null
 }
-function handleContextmenu(e: MouseEvent) {
+function showMenu(e: MouseEvent) {
+  menuPlanId.value = props.rowPlan.plan.id
+  menuRowPlanId.value = props.rowPlan.id
+  menuStyle.value = {
+    top: e.offsetY + 'px',
+    left: e.offsetX + 'px'
+  }
   console.log('handleContextmenu', e)
+}
+function hideMenu() {
+  menuPlanId.value = null
+  menuRowPlanId.value = null
 }
 </script>
 
 <template>
   <div
-    mb-1 h-5 shrink-0 whitespace-nowrap overflow-hidden text-white y-center
+    mb-1 h-5 shrink-0 text-white y-center
     absolute text-sm transition
     :class="[{
       'rounded-l': rowPlan.rowHasPlanStart,
       'rounded-r mr-2': rowPlan.rowHasPlanEnd,
       'pointer-events-none': !!editingPlanId
-    }, rowPlan.active ? 'op-95 bg-amber-5' : 'op-80 bg-sky-6' ]" 
+    }, rowPlan.active ? 'op-95 bg-amber-5 z-1' : 'op-80 bg-sky-6' ]" 
     :style="rowPlan.style"
     @mouseover="handleMouseoverLane(rowPlan.plan)"
     @mouseleave="handleMouseleaveLane(rowPlan.plan)"
-    @contextmenu="handleContextmenu">
-    <Adjust v-show="rowPlan.rowHasPlanStart" isStart :plan="rowPlan.plan" bg-amber-3 shrink-0 />
+    @contextmenu.prevent="showMenu">
+    <Adjust v-show="rowPlan.rowHasPlanStart" isStart :plan="rowPlan.plan" bg-amber-3 rounded-l shrink-0 />
     <template v-if="rowPlan.rowHasPlanStart">
-      <button h-full px-1 transition @click="planner.delete(rowPlan.plan.id)">
-        <div class="i-carbon:close" />
-      </button>
+      <span>{{ rowPlan.plan.note }}</span>
       <span>{{ rowPlan.plan.workDays }}d({{ rowPlan.plan.workHours }}h)</span>
-      <input bg-transparent border-none outline-none w-10 max-w-80 flex-1 />
     </template>
     <Adjust v-show="rowPlan.rowHasPlanEnd" :isStart="false" :plan="rowPlan.plan" shrink-0 ml-auto />
+    <div v-if="menuVisible" :style="menuStyle" absolute rounded bg-white text-dark flex flex-col items-stretch overflow-hidden>
+      <input 
+        v-model="rowPlan.plan.note" 
+        @keydown.enter="hideMenu"
+        placeholder="添加标题"
+        bg-transparent border-b outline-none grow-1 px-2 py-1 />
+      <div flex gap-2 px-2 py-1>
+        <button 
+          v-for="color in colors" 
+          :key="color" 
+          :style="{backgroundColor: color}"
+          rounded-full wh-5 expand-click-2 />
+      </div>
+      <button y-center gap-1 px-2 py-1 hover:bg-gray @click="planner.delete(rowPlan.plan.id)">
+        <div class="i-carbon:close" />
+        删除
+      </button>
+      <button y-center gap-1 px-2 py-1 hover:bg-gray @click="hideMenu">
+        <div i-carbon:undo />
+        取消
+      </button>
+    </div>
   </div>
 </template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useMousePressed } from '@vueuse/core';
 import { onMounted } from 'vue';
 import { Plan, editingPlanId } from '~/composables/days';
 
@@ -23,7 +22,7 @@ function handleMousedown() {
 <template>
   <button 
     ref="adjustTarget"
-    h-full w-1 expand-click-8
+    h-full w-1 expand-click
     pointer-events-auto cursor-col-resize
     @mousedown.passive="handleMousedown" />
 </template>

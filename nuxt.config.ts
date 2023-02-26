@@ -1,3 +1,5 @@
+import { defineNuxtConfig } from 'nuxt/config'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -36,7 +38,7 @@ export default defineNuxtConfig({
       ['x-between', 'flex justify-between'],
       ['y-center', 'flex items-center'],
       ['transition', 'duration-150 transition-all'],
-      [/^expand-click-?(.*)$/, ([,size]) => `cursor-pointer relative before:content-[""] before:absolute before:inset--${size || 3}`],
+      [/^expand-click-?(.*)$/, ([,size]) => `cursor-pointer relative before:content-[""] before:absolute before:inset--${size || 2}`],
     ],
   },
 

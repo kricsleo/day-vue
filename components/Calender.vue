@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { observerManager } from '@kricsleo/observer'
-import { weeks, focusToday, daysRef, activePlanId, planner } from '~/composables/days';
+import { weeks, focusToday, daysRef, activePlanId, planner, menuRowPlanId } from '~/composables/days';
 import { chunk } from 'lodash-es'
 import { areIntervalsOverlapping } from 'date-fns'
 import WeekHeader from './WeekHeader.vue'
@@ -19,6 +19,7 @@ const dayRows = computed(() => {
       { start: row[0].date, end: row[row.length - 1].date },
     ))
     const rowPlans = inRowPlans.map(plan => {
+      const id = `${plan.id}${row[0].date}`
       const rowPlanStartIdx = row.findIndex(day => day.date === plan.start)
       const rowPlanEndIdx = row.findIndex(day => day.date === plan.end)
       const rowHasPlanStart = rowPlanStartIdx !== -1
@@ -30,9 +31,10 @@ const dayRows = computed(() => {
         bottom: `${plan.lane * 24}px`
       }
       const active = plan.id === activePlanId.value
-      return { plan, rowPlanStartIdx, rowPlanEndIdx, rowHasPlanStart, rowHasPlanEnd, style, active }
+      return { id, plan, rowPlanStartIdx, rowPlanEndIdx, rowHasPlanStart, rowHasPlanEnd, style, active }
     })
-    return { plans: rowPlans, days: row }
+    const active = rowPlans.some(rowPlan => rowPlan.id === menuRowPlanId.value)
+    return { plans: rowPlans, days: row, active }
   })
   return dayRows
 })
@@ -56,7 +58,7 @@ onMounted(() => {
     <WeekHeader />
     <div ref="container" grow-1 overflow-auto border rounded class="border-#dadce0 dark:border-#3a3e41">
       <div ref="prevLoader" class="h-0.1px" />
-      <div v-for="row in dayRows" :key="row.days[0].id" class="grid grid-cols-7 relative">
+      <div v-for="row in dayRows" :key="row.days[0].id" grid grid-cols-7 relative :class="{'z-1': row.active }">
         <CalenderDay v-for="day in row.days" :key="day.id" :day="day" />
         <RowPlan v-for="rowPlan in row.plans" :key="rowPlan.plan.id" :rowPlan="rowPlan" />
       </div>
