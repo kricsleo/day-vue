@@ -6,6 +6,7 @@ interface Holiday {
   type: 'workingday' | 'holiday'
 }
 
+// @ts-expect-error
 const holidayJson: Record<string, Holiday[]> = import.meta.glob([
   '/chinese-holidays-data/data/*.json',
   '!**/index.json',

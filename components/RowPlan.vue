@@ -65,22 +65,24 @@ function hideMenu() {
     <Adjust v-show="rowPlan.rowHasPlanEnd" :isStart="false" :plan="rowPlan.plan" shrink-0 ml-auto />
     <div v-if="menuVisible" :style="menuStyle" absolute rounded bg-white text-dark flex flex-col items-stretch overflow-hidden>
       <input 
-        v-model="rowPlan.plan.note" 
+        v-model="rowPlan.plan.note"
         @keydown.enter="hideMenu"
         placeholder="添加标题"
-        bg-transparent border-b outline-none grow-1 px-2 py-1 />
-      <div flex gap-2 px-2 py-1>
+        bg-transparent border-b outline-none grow-1 p-2 />
+      <div flex gap-2 p-2>
         <button 
           v-for="color in colors" 
           :key="color" 
-          :style="{backgroundColor: color}"
-          rounded-full wh-5 expand-click-2 />
+          :style="{backgroundColor: color, outlineColor: color}"
+          :class="{'outline outline-offset-2': rowPlan.plan.color === color}"
+          @click="rowPlan.plan.color = color"
+          rounded-full wh-5 />
       </div>
-      <button y-center gap-1 px-2 py-1 hover:bg-gray @click="planner.delete(rowPlan.plan.id)">
+      <button y-center gap-1 p-2 hover:bg-gray @click="planner.delete(rowPlan.plan.id)">
         <div class="i-carbon:close" />
         删除
       </button>
-      <button y-center gap-1 px-2 py-1 hover:bg-gray @click="hideMenu">
+      <button y-center gap-1 p-2 hover:bg-gray @click="hideMenu">
         <div i-carbon:undo />
         取消
       </button>

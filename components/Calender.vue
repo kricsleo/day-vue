@@ -25,7 +25,7 @@ const dayRows = computed(() => {
       const rowHasPlanStart = rowPlanStartIdx !== -1
       const rowHasPlanEnd = rowPlanEndIdx !== -1
       const style = {
-        // backgroundColor: plan.color, 
+        backgroundColor: plan.color,
         left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
         right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
         bottom: `${plan.lane * 24}px`
