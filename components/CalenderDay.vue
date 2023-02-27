@@ -78,9 +78,9 @@ function handleContextmenu() {
   box-shadow: inset 0px -1px 0px var(--border-color);
 }
 .day--peace {
-  /* background-image: radial-gradient(var(--border-color) 15%, transparent 15%), radial-gradient(var(--border-color) 15%, transparent 15%);
+  background-image: radial-gradient(var(--border-color) 15%, transparent 15%), radial-gradient(var(--border-color) 15%, transparent 25%);
   background-position: 0px 0px, 8px 8px;
-  background-size: 16px 16px; */
-  background-color: var(--bg-color);
+  background-size: 16px 16px;
+  /* background-color: var(--bg-color); */
 }
 </style>

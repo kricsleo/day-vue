@@ -52,7 +52,7 @@ function hideMenu() {
       'rounded-l': rowPlan.rowHasPlanStart,
       'rounded-r mr-2': rowPlan.rowHasPlanEnd,
       'pointer-events-none': !!editingPlanId
-    }, rowPlan.active ? 'op-95 bg-amber-5 z-1' : 'op-80 bg-sky-6' ]" 
+    }, rowPlan.active ? 'op-100 z-1' : 'op-65' ]" 
     :style="rowPlan.style"
     @mouseover="handleMouseoverLane(rowPlan.plan)"
     @mouseleave="handleMouseleaveLane(rowPlan.plan)"
