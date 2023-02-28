@@ -33,10 +33,9 @@ function showMenu(e: MouseEvent) {
   menuPlanId.value = props.rowPlan.plan.id
   menuRowPlanId.value = props.rowPlan.id
   menuStyle.value = {
-    top: e.offsetY + 'px',
-    left: e.offsetX + 'px'
+    top: e.offsetY - 5 + 'px',
+    left: e.offsetX + 5 + 'px'
   }
-  console.log('handleContextmenu', e)
 }
 function hideMenu() {
   menuPlanId.value = null
