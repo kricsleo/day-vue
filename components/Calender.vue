@@ -24,13 +24,13 @@ const dayRows = computed(() => {
       const rowPlanEndIdx = row.findIndex(day => day.date === plan.end)
       const rowHasPlanStart = rowPlanStartIdx !== -1
       const rowHasPlanEnd = rowPlanEndIdx !== -1
+      const active = plan.id === activePlanId.value
       const style = {
-        backgroundColor: plan.color,
+        backgroundColor: active ? plan.color : plan.color + '8c',
         left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
         right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
         bottom: `${plan.lane * 24}px`
       }
-      const active = plan.id === activePlanId.value
       return { id, plan, rowPlanStartIdx, rowPlanEndIdx, rowHasPlanStart, rowHasPlanEnd, style, active }
     })
     const active = rowPlans.some(rowPlan => rowPlan.id === menuRowPlanId.value)

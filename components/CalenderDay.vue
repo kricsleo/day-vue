@@ -47,18 +47,18 @@ function handleContextmenu() {
   <div
     :id="String(day.id)"
     ref="containerRef"
-    h-37 select-none leading-none text-4
+    h-37 select-none leading-none
     :class="['day', { 'day--peace': day.peace}]"
     @contextmenu.prevent="handleContextmenu">
-    <div class="y-center">
+    <div relative x-center>
       <div :class="[
-        'mr-auto grow-0 whitespace-nowrap px-5px py-3px m-1',
-        day.current ? 'text-light bg-yellow-5 rounded' : isOddMonth ? '' : 'text-red']">
-        <span text-5>{{ format(day.date, 'd') }}</span>
-        <span> /{{ format(day.date, 'L月') }}</span>
+        'whitespace-nowrap px-5px py-3px m-1',
+        day.current ? 'text-light bg-yellow-6 rounded' : isOddMonth ? '' : 'text-red']">
+        <span>{{ format(day.date, 'L月') }}</span>
+        <span>{{ format(day.date, 'd') }}</span>
         <span v-if="day.tip">({{ day.tip }})</span>
       </div>
-      <div v-if="marks.has(day.date)" i-carbon-star-filled text-yellow-5 mr-1 text-5 />
+      <div v-if="marks.has(day.date)" i-carbon-star-filled absolute top-1 right-2 text-yellow-6 text-5 />
     </div>
   </div>
 </template>

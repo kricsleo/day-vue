@@ -45,21 +45,22 @@ function hideMenu() {
 
 <template>
   <div
-    mb-1 h-5 shrink-0 text-white y-center
+    mb-1 h-5 shrink-0 y-center gap-1
     absolute text-sm transition
     :class="[{
       'rounded-l': rowPlan.rowHasPlanStart,
       'rounded-r mr-2': rowPlan.rowHasPlanEnd,
-      'pointer-events-none': !!editingPlanId
-    }, rowPlan.active ? 'op-100 z-1' : 'op-65' ]" 
+      'pointer-events-none': !!editingPlanId,
+      'text-light z-1': rowPlan.active
+    }]" 
     :style="rowPlan.style"
     @mouseover="handleMouseoverLane(rowPlan.plan)"
     @mouseleave="handleMouseleaveLane(rowPlan.plan)"
     @contextmenu.prevent="showMenu">
     <Adjust v-show="rowPlan.rowHasPlanStart" isStart :plan="rowPlan.plan" bg-amber-3 rounded-l shrink-0 />
     <template v-if="rowPlan.rowHasPlanStart">
-      <span>{{ rowPlan.plan.note }}</span>
       <span>{{ rowPlan.plan.workDays }}d({{ rowPlan.plan.workHours }}h)</span>
+      <span>{{ rowPlan.plan.note }}</span>
     </template>
     <Adjust v-show="rowPlan.rowHasPlanEnd" :isStart="false" :plan="rowPlan.plan" shrink-0 ml-auto />
     <div v-if="menuVisible" :style="menuStyle" absolute rounded bg-white text-dark flex flex-col items-stretch overflow-hidden>

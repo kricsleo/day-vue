@@ -22,7 +22,7 @@ function handleMousedown() {
 <template>
   <button 
     ref="adjustTarget"
-    h-full w-1 expand-click
+    h-full w-1.5 expand-click
     pointer-events-auto cursor-col-resize
     @mousedown.passive="handleMousedown" />
 </template>

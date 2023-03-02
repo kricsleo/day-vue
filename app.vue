@@ -7,7 +7,9 @@ import 'uno.css'
 
 <template>
   <main 
-    h-screen font-mono text-dark-1 dark:text-gray dark:bg-dark-8
+    h-screen font-mono 
+    bg="#fff dark:#22272e"
+    text="#222222 dark:#d6d3d1"
     center gap-2 px-5 pb-5>
     <Calender h-full grow-1 max-w-400 />
     <OptPanel />
