@@ -39,6 +39,7 @@ export default defineNuxtConfig({
       ['y-center', 'flex items-center'],
       ['transition', 'duration-150 transition-all'],
       [/^expand-click-?(.*)$/, ([,size]) => `cursor-pointer relative before:content-[""] before:absolute before:inset--${size || 2}`],
+      ['border-color', 'border-#dadce0 dark:border-#3a3e41']
     ],
   },
 

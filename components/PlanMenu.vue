@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { menuPlanId, planner } from '~~/composables/days';
 
-const colors = ['#ff7065', '#ffb353', '#ffde58', '#5b9dff', '#6fdf74', '#cd7df6']
+const colors = ['#ffb353', '#ffde58', '#5b9dff', '#6fdf74', '#cd7df6']
 const menuPlan = computed(() => planner.get(menuPlanId.value))
 
 function hideMenu()  {
@@ -30,8 +30,8 @@ function deleteMenu() {
         @click="menuPlan!.color = color"
         rounded-full wh-5 />
     </div>
-    <button y-center gap-1 p-2 hover:bg-gray @click="delete">
-      <div class="i-carbon:close" />
+    <button y-center gap-1 p-2 hover:bg-gray @click="deleteMenu">
+      <div i-carbon:close />
       删除
     </button>
     <button y-center gap-1 p-2 hover:bg-gray @click="hideMenu">

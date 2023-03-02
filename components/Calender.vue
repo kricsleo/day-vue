@@ -7,6 +7,7 @@ import { areIntervalsOverlapping } from 'date-fns'
 import WeekHeader from './WeekHeader.vue'
 import CalenderDay from './CalenderDay.vue'
 import RowPlan from './RowPlan.vue';
+import PlanMenu from './PlanMenu.vue';
  
 const prevLoader = ref<HTMLElement>()
 const nextLoader = ref<HTMLElement>()
@@ -16,7 +17,7 @@ const dayRows = computed(() => {
   const dayRows = dayRowChunk.map(row => {
     const inRowPlans = planner.plans.value.filter(plan => areIntervalsOverlapping(
       { start: plan.start, end: plan.end },
-      { start: row[0].date, end: row[row.length - 1].date },
+      { start: row[0].date - 1, end: row[row.length - 1].date + 1 },
     ))
     const rowPlans = inRowPlans.map(plan => {
       const id = `${plan.id}${row[0].date}`
@@ -26,7 +27,7 @@ const dayRows = computed(() => {
       const rowHasPlanEnd = rowPlanEndIdx !== -1
       const active = plan.id === activePlanId.value
       const style = {
-        backgroundColor: active ? plan.color : plan.color + '8c',
+        backgroundColor: active ? plan.color : plan.color + 'a6',
         left: `${rowHasPlanStart ? rowPlanStartIdx / weeks.length * 100 : 0}%`,
         right: `${rowHasPlanEnd ? (weeks.length - 1 - rowPlanEndIdx) / weeks.length* 100 : 0}%`,
         bottom: `${plan.lane * 24}px`
@@ -56,12 +57,18 @@ onMounted(() => {
 <template>
   <section flex="~ col">
     <WeekHeader />
-    <div ref="container" grow-1 overflow-auto border rounded class="border-#dadce0 dark:border-#3a3e41">
+    <div 
+      ref="container" 
+      grow-1 overflow-auto border rounded border-color>
       <div ref="prevLoader" class="h-0.1px" />
-      <div v-for="row in dayRows" :key="row.days[0].id" grid grid-cols-7 relative :class="{'z-1': row.active }">
+      <div v-for="row in dayRows" :key="row.days[0].id" grid grid-cols-7 relative :class="{'z-2': row.active }">
         <CalenderDay v-for="day in row.days" :key="day.id" :day="day" />
-        <RowPlan v-for="rowPlan in row.plans" :key="rowPlan.plan.id" :rowPlan="rowPlan" />
+        <RowPlan 
+          v-for="rowPlan in row.plans" 
+          :key="rowPlan.plan.id" 
+          :rowPlan="rowPlan" />
       </div>
+      <PlanMenu />
       <div ref="nextLoader" class="h-1px" />
     </div>
   </section>
