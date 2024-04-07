@@ -2,7 +2,7 @@
 import { useElementHover, useMousePressed } from '@vueuse/core';
 import { format, max, min, getMonth } from 'date-fns';
 import { ref, computed, watch } from 'vue';
-import { Day, toggleMark, marks, editingPlanId, planner } from '~/composables/days';
+import { type Day, toggleMark, marks, editingPlanId, planner } from '~/composables/days';
 
 const props = defineProps<{
   day: Day

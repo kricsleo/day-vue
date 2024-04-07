@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { Plan, editingPlanId } from '~/composables/days';
+import { type Plan, editingPlanId } from '~/composables/days';
 
 const props = defineProps<{
   plan: Plan

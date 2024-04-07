@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { nextTick, computed, ref, StyleValue, watch } from 'vue';
-import { planner, Plan, editingPlanId, highlightPlanId, menuPlanId, menuRowPlanId, activePlanId } from '~~/composables/days';
+import { nextTick, computed, ref, type StyleValue, watch } from 'vue';
+import { planner, type Plan, editingPlanId, highlightPlanId, menuPlanId, menuRowPlanId, activePlanId } from '~~/composables/days';
 import Adjust from './Adjust.vue';
 import { onKeyStroke } from '@vueuse/core'
 
