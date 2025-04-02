@@ -1,5 +1,5 @@
-import { StorageSerializers, useLocalStorage, type RemovableRef, useMousePressed } from '@vueuse/core'
-import { addDays, addWeeks, differenceInCalendarDays, eachDayOfInterval, endOfWeek, isFirstDayOfMonth, isLastDayOfMonth, isSameDay, isToday, isWeekend, isWithinInterval, max, min, previousSunday, startOfDay, startOfWeek } from 'date-fns'
+import { useLocalStorage, type RemovableRef } from '@vueuse/core'
+import { addDays, addWeeks, differenceInCalendarDays, eachDayOfInterval, endOfWeek, isFirstDayOfMonth, isLastDayOfMonth, isSameDay, isToday, isWeekend, isWithinInterval, startOfDay, startOfWeek } from 'date-fns'
 import { ref, reactive, computed, watch } from 'vue'
 import { isChineseWorkingDay, isChineseHoliday, findChineseDay } from './chinese-holidays'
 
