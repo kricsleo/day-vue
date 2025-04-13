@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "@kricsleo/observer": "^0.1.11",
-    "@vueuse/core": "^13.0.0",
+    "@vueuse/core": "^13.1.0",
     "date-fns": "^4.1.0",
     "lodash-es": "^4.17.21"
   },
-  "packageManager": "pnpm@10.7.1"
+  "packageManager": "pnpm@10.8.0"
 }
