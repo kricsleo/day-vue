@@ -11,15 +11,15 @@
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.8",
     "@types/lodash-es": "^4.17.12",
-    "@unocss/nuxt": "^66.1.1",
-    "nuxt": "^3.17.2",
-    "unocss": "^66.1.1"
+    "@unocss/nuxt": "^66.1.2",
+    "nuxt": "^3.17.3",
+    "unocss": "^66.1.2"
   },
   "dependencies": {
     "@kricsleo/observer": "^0.1.11",
-    "@vueuse/core": "^13.1.0",
+    "@vueuse/core": "^13.2.0",
     "date-fns": "^4.1.0",
     "lodash-es": "^4.17.21"
   },
-  "packageManager": "pnpm@10.10.0"
+  "packageManager": "pnpm@10.11.0"
 }
