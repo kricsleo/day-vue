@@ -19,7 +19,8 @@
     "@kricsleo/observer": "^0.1.11",
     "@vueuse/core": "^13.2.0",
     "date-fns": "^4.1.0",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "motion-v": "^1.2.1"
   },
   "packageManager": "pnpm@10.11.0"
 }
